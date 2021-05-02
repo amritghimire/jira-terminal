@@ -3,6 +3,19 @@ use json;
 #[path = "../api/mod.rs"]
 mod api;
 
+/// Get the user account id from email provided by user while config creation.
+/// For most of the API Call, user email will not be valid due to recent changes in GDPR policies.
+/// This function will fetch the unique account id for provided email.
+///
+/// # Arguments
+///
+/// * configuration - JSON Object for config stored in config file.
+///
+/// # Example
+///
+/// ```
+/// let account_id = get_username(&configuration);
+/// ```
 pub fn get_username(configuration: &json::JsonValue) -> String {
     let url = format!(
         "user/search?query={}",
