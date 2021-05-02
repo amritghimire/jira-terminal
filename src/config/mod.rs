@@ -64,15 +64,22 @@ fn create_config() {
     };
     let account_id = cache::get_username(&configuration);
     configuration["account_id"] = account_id.into();
+    write_config(configuration);
+}
+
+fn write_config(configuration: json::JsonValue) {
     let config_json = json::stringify_pretty(configuration, 4);
     let mut file = fs::File::create(get_config_file_name()).expect("Unable to create config file.");
     file.write_all(config_json.as_bytes())
         .expect("Failed to write to file.");
-    println!("Configuration file created.");
+    println!("Configuration file updated.");
 }
 
-pub fn update_config() {
+pub fn update_config(key: String, value: String) {
     // Update the existing config.
+    let mut config_value = parse_config();
+    config_value[key] = value.clone().into();
+    write_config(config_value);
 }
 
 pub fn parse_config() -> json::JsonValue {
@@ -90,13 +97,26 @@ pub fn get_config(config: String) -> String {
     String::from("")
 }
 
-pub fn get_alias() {}
+pub fn get_alias(alias: String) -> Option<String> {
+    let config_value = &parse_config()["alias"][alias];
+    if config_value.is_null() {
+        None
+    } else {
+        Some(config_value.as_str().unwrap().to_string())
+    }
+}
 
-pub fn set_alias() {}
+pub fn set_alias(alias: String, value: String) {
+    let mut config_value = parse_config();
+    config_value["alias"][alias] = value.into();
+    write_config(config_value);
+}
 
-pub fn set_transitions() {}
-
-pub fn set_config() {}
+pub fn set_transitions(project_code: String, transitions: json::JsonValue) {
+    let mut config_value = parse_config();
+    config_value["transitions"][project_code] = transitions.into();
+    write_config(config_value);
+}
 
 pub fn ensure_config() {
     // This function will check if the provided config exists or not and will create a config if it
