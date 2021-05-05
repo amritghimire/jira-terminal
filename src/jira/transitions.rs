@@ -82,6 +82,17 @@ pub fn get_transition_code(ticket: String, transition_name: String) -> Option<u1
     return None;
 }
 
+/// Print the list of possible transitions.
+///
+/// # Arguments
+///
+/// * `ticket` - Ticket ID
+///
+/// # Example
+///
+/// ```
+/// print_transition_lists("ABC-1234");
+/// ```
 pub fn print_transition_lists(ticket: String) {
     let transition_object_response = get_transitions(ticket.clone());
     if transition_object_response.is_none() {
@@ -94,4 +105,38 @@ pub fn print_transition_lists(ticket: String) {
         let name = String::from(transition["name"].as_str().unwrap());
         println!("- {}", name);
     }
+}
+
+/// Perform transition for the JIRA Ticket.
+///
+/// # Arguments
+///
+/// * `ticket` - Ticket ID
+/// * `status` - Status
+///
+/// # Example
+///
+/// ```
+/// move_ticket_status("ABC-1234", "In Progress");
+/// ```
+pub fn move_ticket_status(ticket: String, status: String) {
+    let transition_options = get_transition_code(ticket.clone(), status.clone());
+    if transition_options.is_none() {
+        println!("Invalid status...");
+        return;
+    }
+    let transition_code = transition_options.unwrap();
+    let json_object = json::object! {
+        "transition": {
+            "id": transition_code
+        }
+    };
+    let transitions_response =
+        api::post_call(format!("issue/{}/transitions", ticket), json_object, 3);
+    if transitions_response.is_err() {
+        println!("Unable to perform transition. {:?}", transitions_response);
+        return;
+    }
+    let response = transitions_response.unwrap();
+    println!("Successfully Completed: {}", response);
 }
