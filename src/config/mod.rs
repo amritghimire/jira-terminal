@@ -1,3 +1,4 @@
+use base64;
 use home;
 use json;
 use std::fs;
@@ -57,10 +58,13 @@ fn create_config() {
     io::stdin()
         .read_line(&mut token)
         .expect("Failed to read input.");
+    let user_password = format!("{}:{}", email.trim(), token.trim());
+    let b64 = base64::encode(user_password);
+
     let mut configuration = json::object! {
         namespace: namespace.trim(),
         email: email.trim(),
-        token: token.trim(),
+        token: b64,
         account_id: "",
         alias: {},
         transitions: {}

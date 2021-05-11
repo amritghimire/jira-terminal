@@ -1,7 +1,6 @@
 pub mod request;
 use json;
 use ureq;
-extern crate base64;
 
 /// Call GET API request to JIRA with provided api request.
 /// This will act as service to call API.
@@ -26,9 +25,7 @@ pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, ureq::Er
         "https://{}.atlassian.net/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url
     );
-    let user_password = format!("{}:{}", api_request.username, api_request.password);
-    let b64 = base64::encode(user_password);
-    let authentication = format!("Basic {}", b64);
+    let authentication = format!("Basic {}", api_request.password);
     let response = ureq::get(&url)
         .set("Authorization", &authentication)
         .call()?
@@ -59,9 +56,7 @@ pub fn post(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
         "https://{}.atlassian.net/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url
     );
-    let user_password = format!("{}:{}", api_request.username, api_request.password);
-    let b64 = base64::encode(user_password);
-    let authentication = format!("Basic {}", b64);
+    let authentication = format!("Basic {}", api_request.password);
     let response: String = ureq::post(&url)
         .set("Authorization", &authentication)
         .set("Content-Type", "application/json")
