@@ -187,6 +187,29 @@ pub fn set_alias(alias: String, value: String) {
     write_config(config_value);
 }
 
+/// Remove the alias from configuration.
+///
+/// # Arguments
+///
+/// * alias - Name of alias
+///
+/// # Example
+/// ```
+/// remove_alias("name".to_string());
+/// ```
+pub fn remove_alias(alias: String) {
+    let mut config_value = parse_config();
+    let mut alias_object = config_value["alias"].clone();
+    println!(
+        "Removing alias ({}) with value: {}",
+        alias.clone(),
+        alias_object[alias.clone()]
+    );
+    alias_object.remove(alias.to_lowercase().as_str());
+    config_value["alias"] = alias_object.into();
+    write_config(config_value);
+}
+
 /// Completely replace the transition object with new value.
 /// This function will be used to update or store transition codes for a project code.
 ///
@@ -249,5 +272,14 @@ pub fn ensure_config() {
     let config_exists = check_config_exists();
     if !config_exists {
         create_config();
+    }
+}
+
+/// List all the provided alias.
+pub fn list_all_alias() {
+    let config_value = parse_config();
+    println!("Listing alias saved for you: ");
+    for (alias, value) in config_value["alias"].entries() {
+        println!("* {:20} => {:?}", alias, value.as_str().unwrap_or(""));
     }
 }

@@ -19,6 +19,7 @@ After that, you can use following commands for help.
 jira-terminal help
 jira-terminal help list
 jira-terminal help transition
+jira-terminal help alias
 ```
 
 ```
@@ -102,3 +103,30 @@ ARGS:
     <STATUS>    Status or alias of status to move the ticket to.
 
 ```
+
+
+### Alias
+```
+jira-terminal-alias 
+Configuration for alias. One of add,list or remove is required.
+
+USAGE:
+    jira-terminal alias [FLAGS] <NAME> --add <add> --list --remove
+
+FLAGS:
+    -h, --help       Prints help information
+    -l, --list       List the alias saved.
+    -r, --remove     List the alias saved.
+    -V, --version    Prints version information
+
+OPTIONS:
+    -a, --add <add>    Value to associate with provided alias name.
+
+ARGS:
+    <NAME>    Name of alias. (Required except for list option)
+```
+
+Sample usage:
+- `jira-terminal alias -l`
+- `jira-terminal alias alias_name -a "Alias Value"`
+- `jira-terminal alias -r alias_name` 
