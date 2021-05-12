@@ -138,5 +138,5 @@ pub fn move_ticket_status(ticket: String, status: String) {
         return;
     }
     let response = transitions_response.unwrap();
-    println!("Successfully Completed: {}", response);
+    println!("Successfully Completed {}", response);
 }

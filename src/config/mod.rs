@@ -183,7 +183,7 @@ pub fn get_alias_or(alias: String) -> String {
 /// ```
 pub fn set_alias(alias: String, value: String) {
     let mut config_value = parse_config();
-    config_value["alias"][alias] = value.into();
+    config_value["alias"][alias.to_lowercase()] = value.into();
     write_config(config_value);
 }
 

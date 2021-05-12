@@ -1,4 +1,5 @@
 pub mod api;
+pub mod lists;
 pub mod transitions;
 
 extern crate clap;
@@ -12,4 +13,8 @@ pub fn handle_transition_matches(matches: &ArgMatches) {
         let status = matches.value_of("STATUS").unwrap();
         transitions::move_ticket_status(ticket.to_string(), status.to_string());
     }
+}
+
+pub fn handle_list_matches(matches: &ArgMatches) {
+    lists::list_issues(matches);
 }
