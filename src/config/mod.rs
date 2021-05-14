@@ -8,6 +8,11 @@ use std::io::Write;
 
 mod cache;
 
+/// Capitalize first letter of a word.
+pub fn str_cap(s: String) -> String {
+    format!("{}{}", (&s[..1].to_string()).to_uppercase(), &s[1..])
+}
+
 /// Get the config file name regardless of platform.
 /// This function will use platform independent library to fetch home directory and return file
 /// name in home directory.
@@ -99,6 +104,24 @@ fn write_config(configuration: json::JsonValue) {
 /// assert_eq!("value".to_string(), get_config("key".to_string()));
 /// ```
 pub fn update_config(key: String, value: String) {
+    let mut config_value = parse_config();
+    config_value[key] = value.clone().into();
+    write_config(config_value);
+}
+
+/// Update the object structure configuration.
+///
+/// # Arguments
+///
+/// * key - Config key to update.
+/// * value - Value to update with.
+///
+/// # Example
+/// ```
+/// update_config("key".to_string(), "value".to_string());
+/// assert_eq!("value".to_string(), get_config("key".to_string()));
+/// ```
+pub fn update_config_object(key: String, value: json::JsonValue) {
     let mut config_value = parse_config();
     config_value[key] = value.clone().into();
     write_config(config_value);

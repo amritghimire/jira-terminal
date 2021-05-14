@@ -1,4 +1,5 @@
 pub mod api;
+pub mod details;
 pub mod lists;
 pub mod transitions;
 
@@ -17,4 +18,14 @@ pub fn handle_transition_matches(matches: &ArgMatches) {
 
 pub fn handle_list_matches(matches: &ArgMatches) {
     lists::list_issues(matches);
+}
+
+pub fn handle_detail_matches(matches: &ArgMatches) {
+    let ticket = String::from(matches.value_of("TICKET").unwrap());
+    let fields = String::from(
+        matches
+            .value_of("fields")
+            .unwrap_or("key,summary,description"),
+    );
+    details::show_details(ticket, fields);
 }

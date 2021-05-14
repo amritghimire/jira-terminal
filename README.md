@@ -20,6 +20,7 @@ jira-terminal help
 jira-terminal help list
 jira-terminal help transition
 jira-terminal help alias
+jira-terminal help detail
 ```
 
 ```
@@ -130,3 +131,30 @@ Sample usage:
 - `jira-terminal alias -l`
 - `jira-terminal alias alias_name -a "Alias Value"`
 - `jira-terminal alias -r alias_name` 
+
+### Detail
+```
+jira-terminal-detail 
+Detail of a JIRA tickets..
+
+USAGE:
+    jira-terminal detail [OPTIONS] <TICKET>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -f, --fields <fields>    Comma separated lists of fields or alias to show.
+                             Possible options are: 
+                             key,summary,description,status,issuetype,priority,labels,assignee,components,creator,reporter,project,comment
+                             
+                             You can use all to show all fields.
+                             Default selection are:
+                             key,summary,description
+                                                 
+
+ARGS:
+    <TICKET>    Ticket id for details.
+
+```

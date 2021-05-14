@@ -7,7 +7,7 @@ mod api;
 #[path = "../config/mod.rs"]
 mod config;
 
-fn display_content(option: &json::JsonValue, value: &json::JsonValue, header: String) {
+fn display_content(option: &json::JsonValue, value: &json::JsonValue) {
     let mut content: String;
     if value.is_array() {
         let mut contents: Vec<String> = vec![];
@@ -142,17 +142,9 @@ pub fn list_issues(matches: &ArgMatches) {
     for issue in issues.members() {
         for header in headers.clone() {
             if header == "key" {
-                display_content(
-                    &display_options[header],
-                    &issue[header],
-                    String::from(header),
-                );
+                display_content(&display_options[header], &issue[header]);
             } else {
-                display_content(
-                    &display_options[header],
-                    &issue["fields"][header],
-                    String::from(header),
-                );
+                display_content(&display_options[header], &issue["fields"][header]);
             }
         }
         println!("");

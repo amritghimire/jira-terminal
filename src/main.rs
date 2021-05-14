@@ -191,6 +191,26 @@ You can pass alias as option for display. You can save alias using alias subcomm
                .takes_value(true)
                )
            )
+            .subcommand(SubCommand::with_name("detail")
+             .about("Detail of a JIRA tickets..")
+            .arg(Arg::with_name("fields")
+                .short("f")
+                .long("fields")
+                .takes_value(true)
+                .long_help("Comma separated lists of fields or alias to show.
+Possible options are: 
+key,summary,description,status,issuetype,priority,labels,assignee,components,creator,reporter,project,comment
+
+You can use all to show all fields.
+Default selection are:
+key,summary,description
+                    ")
+                )
+            .arg(Arg::with_name("TICKET")
+                .help("Ticket id for details.")
+                .required(true)
+                .index(1))
+            )
            .subcommand(SubCommand::with_name("alias")
              .about("Configuration for alias. One of add,list or remove is required.")
                .arg(Arg::with_name("list")
@@ -241,5 +261,7 @@ You can pass alias as option for display. You can save alias using alias subcomm
                 println!("Added new config for {} with value: {}", alias_name, value);
             }
         }
+    } else if let Some(details) = matches.subcommand_matches("detail") {
+        jira::handle_detail_matches(details);
     }
 }
