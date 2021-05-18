@@ -1,13 +1,8 @@
 use json;
 
-#[path = "./comments.rs"]
-mod comments;
-
-#[path = "./api.rs"]
-mod api;
-
-#[path = "../config/mod.rs"]
-mod config;
+use crate::config;
+use crate::jira::api;
+use crate::jira::comments;
 
 fn show_detail_field(value: &json::JsonValue, field: String) {
     let hide_keys = vec![
@@ -80,7 +75,11 @@ pub fn show_details(ticket: String, fields: String) {
         if field == "key" {
             show_detail_field(&detail_object["key"], "key".to_string());
         } else {
-            show_detail_field(&detail_object["fields"][field], field.to_string());
+            let mut value = &detail_object["fields"][field];
+            if value.is_null() {
+                value = &detail_object["fields"][config::get_alias_or(field.to_string())];
+            }
+            show_detail_field(value, field.to_string());
         }
     }
 }

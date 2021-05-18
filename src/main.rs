@@ -22,8 +22,9 @@
 extern crate clap;
 use clap::{App, Arg, SubCommand};
 
-mod config;
-mod jira;
+pub mod api;
+pub mod config;
+pub mod jira;
 
 fn main() {
     config::ensure_config();
@@ -200,6 +201,8 @@ You can pass alias as option for display. You can save alias using alias subcomm
                 .long_help("Comma separated lists of fields or alias to show.
 Possible options are: 
 key,summary,description,status,issuetype,priority,labels,assignee,components,creator,reporter,project,comment
+You can view complete list of fields from:
+jira-terminal fields KEY-XXXX
 
 You can use all to show all fields.
 Default selection are:
@@ -242,6 +245,13 @@ key,summary,description
                 .required_unless("list")
                 .index(1))
             )
+            .subcommand(SubCommand::with_name("fields")
+             .about("List of possible Fields for details...")
+             .arg(Arg::with_name("TICKET")
+                .help("Ticket id for details.")
+                .required(true)
+                .index(1))
+            )
         .get_matches();
 
     if let Some(transitions) = matches.subcommand_matches("transition") {
@@ -263,5 +273,7 @@ key,summary,description
         }
     } else if let Some(details) = matches.subcommand_matches("detail") {
         jira::handle_detail_matches(details);
+    } else if let Some(customs) = matches.subcommand_matches("fields") {
+        jira::handle_custom_matches(customs);
     }
 }

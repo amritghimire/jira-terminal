@@ -2,11 +2,8 @@ use json;
 
 use ureq;
 
-#[path = "../api/mod.rs"]
-mod api;
-
-#[path = "../config/mod.rs"]
-mod config;
+use crate::api;
+use crate::config;
 
 /// Call the GET API Service for provided endpoint.
 /// This is a wrapper on existing api service which will add the namespace and authentication from

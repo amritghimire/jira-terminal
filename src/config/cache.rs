@@ -1,7 +1,5 @@
+use crate::api;
 use json;
-
-#[path = "../api/mod.rs"]
-mod api;
 
 /// Get the user account id from email provided by user while config creation.
 /// For most of the API Call, user email will not be valid due to recent changes in GDPR policies.

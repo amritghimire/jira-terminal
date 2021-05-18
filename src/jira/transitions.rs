@@ -1,10 +1,7 @@
 use json;
 
-#[path = "./api.rs"]
-mod api;
-
-#[path = "../config/mod.rs"]
-mod config;
+use crate::config;
+use crate::jira::api;
 
 /// Get the project code from ticket id.
 /// Example for ticket id: ABC-123, project code will be ABC.

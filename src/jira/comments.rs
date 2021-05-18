@@ -3,11 +3,8 @@ use json;
 use regex::Captures;
 use regex::Regex;
 
-#[path = "./api.rs"]
-mod api;
-
-#[path = "../config/mod.rs"]
-mod config;
+use crate::config;
+use crate::jira::api;
 
 fn get_display_name_for_user(account_id: String) -> String {
     let config_object = config::parse_config().clone();

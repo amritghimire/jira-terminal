@@ -21,6 +21,7 @@ jira-terminal help list
 jira-terminal help transition
 jira-terminal help alias
 jira-terminal help detail
+jira-terminal help fields
 ```
 
 ```
@@ -157,4 +158,20 @@ OPTIONS:
 ARGS:
     <TICKET>    Ticket id for details.
 
+```
+
+### Fields
+```
+jira-terminal-fields 
+List of possible Fields for details...
+
+USAGE:
+    jira-terminal fields <TICKET>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+ARGS:
+    <TICKET>    Ticket id for details.
 ```

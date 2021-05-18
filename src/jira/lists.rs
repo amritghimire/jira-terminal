@@ -1,11 +1,8 @@
 extern crate clap;
 use clap::ArgMatches;
 
-#[path = "./api.rs"]
-mod api;
-
-#[path = "../config/mod.rs"]
-mod config;
+use crate::config;
+use crate::jira::api;
 
 fn display_content(option: &json::JsonValue, value: &json::JsonValue) {
     let mut content: String;
