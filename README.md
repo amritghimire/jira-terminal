@@ -22,6 +22,7 @@ jira-terminal help transition
 jira-terminal help alias
 jira-terminal help detail
 jira-terminal help fields
+jira-terminal help update
 ```
 
 ```
@@ -174,4 +175,25 @@ FLAGS:
 
 ARGS:
     <TICKET>    Ticket id for details.
+```
+
+### Update
+```
+jira-terminal-update 
+Update a field for a ticket
+
+USAGE:
+    jira-terminal update <TICKET> --field <field> --value <value>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -f, --field <field>    Key of field to update. You can use jira-terminal fields <TICKET> to see possible set of
+                           keys.
+    -v, --value <value>    Value of the field to update.
+
+ARGS:
+    <TICKET>    Ticket ID to update
 ```

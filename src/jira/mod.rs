@@ -4,6 +4,7 @@ pub mod details;
 mod fields;
 pub mod lists;
 pub mod transitions;
+mod update;
 
 extern crate clap;
 use clap::ArgMatches;
@@ -18,7 +19,7 @@ pub fn handle_transition_matches(matches: &ArgMatches) {
     }
 }
 
-pub fn handle_custom_matches(matches: &ArgMatches) {
+pub fn handle_fields_matches(matches: &ArgMatches) {
     let ticket = String::from(matches.value_of("TICKET").unwrap());
     fields::display_all_fields(ticket);
 }
@@ -35,4 +36,11 @@ pub fn handle_detail_matches(matches: &ArgMatches) {
             .unwrap_or("key,summary,description"),
     );
     details::show_details(ticket, fields);
+}
+
+pub fn handle_update_matches(matches: &ArgMatches) {
+    let ticket = String::from(matches.value_of("TICKET").unwrap());
+    let field = String::from(matches.value_of("field").unwrap());
+    let value = String::from(matches.value_of("value").unwrap());
+    update::update_jira_ticket(ticket, field, value);
 }

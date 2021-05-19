@@ -1,12 +1,12 @@
 use crate::jira::api;
 
 pub fn display_all_fields(ticket: String) {
-    let custom_fields_response = api::get_call_v2(format!("issue/{}/editmeta", ticket));
-    if custom_fields_response.is_err() {
-        println!("Error occured in API Call: {:?}", custom_fields_response);
+    let fields_response = api::get_call_v2(format!("issue/{}/editmeta", ticket));
+    if fields_response.is_err() {
+        println!("Error occured in API Call: {:?}", fields_response);
         return;
     }
-    let fields = &custom_fields_response.unwrap()["fields"];
+    let fields = &fields_response.unwrap()["fields"];
     if fields.is_null() {
         println!("Cannot fetch fields");
         return;
