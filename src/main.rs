@@ -19,6 +19,7 @@
 //! Similarly, you can create a token from [https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
 //!
 //!
+#[macro_use]
 extern crate clap;
 use clap::App;
 
@@ -29,18 +30,19 @@ pub mod subcommands;
 
 fn main() {
     config::ensure_config();
-    let app = App::new("JIRA Terminal").version("1.0")
+    let app = App::new("JIRA Terminal")
+        .version(crate_version!())
         .author("Amrit Ghimire <oss@amritghimire.com>")
         .about("This is a command line application that can be used as a personal productivity tool for interacting with JIRA")
-       .subcommand(subcommands::transition::subcommand()) 
-       .subcommand(subcommands::list::subcommand())
-       .subcommand(subcommands::detail::subcommand())
-       .subcommand(subcommands::alias::subcommand())
-       .subcommand(subcommands::fields::subcommand())
-       .subcommand(subcommands::assign::subcommand())
-       .subcommand(subcommands::comments::subcommand())
-       .subcommand(subcommands::update::subcommand())
-       .subcommand(subcommands::new_subcommand::subcommand());
+        .subcommand(subcommands::transition::subcommand()) 
+        .subcommand(subcommands::list::subcommand())
+        .subcommand(subcommands::detail::subcommand())
+        .subcommand(subcommands::alias::subcommand())
+        .subcommand(subcommands::fields::subcommand())
+        .subcommand(subcommands::assign::subcommand())
+        .subcommand(subcommands::comments::subcommand())
+        .subcommand(subcommands::update::subcommand())
+        .subcommand(subcommands::new_subcommand::subcommand());
 
     subcommands::handle_matches(app);
 }
