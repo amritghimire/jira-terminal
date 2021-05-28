@@ -9,9 +9,10 @@ pub mod transition;
 pub mod update;
 
 use crate::{config, jira};
-use clap::ArgMatches;
+use clap::App;
 
-pub fn handle_matches(matches: ArgMatches) {
+pub fn handle_matches(mut app: App) {
+    let matches = app.clone().get_matches();
     if let Some(transitions) = matches.subcommand_matches("transition") {
         jira::handle_transition_matches(transitions);
     } else if let Some(lists) = matches.subcommand_matches("list") {
@@ -41,5 +42,10 @@ pub fn handle_matches(matches: ArgMatches) {
         jira::handle_assign_matches(assign);
     } else if let Some(comments) = matches.subcommand_matches("comment") {
         jira::handle_comments_matches(comments);
+    } else {
+        let result = app.print_long_help();
+        if result.is_err() {
+            println!("Use jira-terminal help to view the available commands.");
+        }
     }
 }

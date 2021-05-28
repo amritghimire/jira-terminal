@@ -29,7 +29,7 @@ pub mod subcommands;
 
 fn main() {
     config::ensure_config();
-    let matches = App::new("JIRA Terminal").version("1.0")
+    let app = App::new("JIRA Terminal").version("1.0")
         .author("Amrit Ghimire <oss@amritghimire.com>")
         .about("This is a command line application that can be used as a personal productivity tool for interacting with JIRA")
        .subcommand(subcommands::transition::subcommand()) 
@@ -40,8 +40,7 @@ fn main() {
        .subcommand(subcommands::assign::subcommand())
        .subcommand(subcommands::comments::subcommand())
        .subcommand(subcommands::update::subcommand())
-       .subcommand(subcommands::new_subcommand::subcommand())
-       .get_matches();
+       .subcommand(subcommands::new_subcommand::subcommand());
 
-    subcommands::handle_matches(matches);
+    subcommands::handle_matches(app);
 }
