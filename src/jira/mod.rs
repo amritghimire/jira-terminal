@@ -1,4 +1,5 @@
 pub mod api;
+mod assign;
 pub mod comments;
 pub mod details;
 mod fields;
@@ -6,6 +7,7 @@ pub mod lists;
 mod new_issue;
 pub mod transitions;
 mod update;
+pub mod utils;
 
 extern crate clap;
 use clap::ArgMatches;
@@ -48,4 +50,10 @@ pub fn handle_update_matches(matches: &ArgMatches) {
 
 pub fn handle_new_matches(matches: &ArgMatches) {
     new_issue::handle_issue_creation(&matches);
+}
+
+pub fn handle_assign_matches(matches: &ArgMatches) {
+    let ticket = String::from(matches.value_of("ticket").unwrap());
+    let user = String::from(matches.value_of("user").unwrap());
+    assign::assign_task(ticket, user);
 }

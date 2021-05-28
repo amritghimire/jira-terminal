@@ -1,4 +1,5 @@
 pub mod alias;
+pub mod assign;
 pub mod detail;
 pub mod fields;
 pub mod list;
@@ -35,5 +36,7 @@ pub fn handle_matches(matches: ArgMatches) {
         jira::handle_update_matches(updates);
     } else if let Some(new_matches) = matches.subcommand_matches("new") {
         jira::handle_new_matches(new_matches);
+    } else if let Some(assign) = matches.subcommand_matches("assign") {
+        jira::handle_assign_matches(assign);
     }
 }

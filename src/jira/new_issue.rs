@@ -1,5 +1,6 @@
 use crate::config;
 use crate::jira::api;
+use crate::jira::utils;
 use clap::ArgMatches;
 use json;
 use std::io::{stdin, BufRead};
@@ -82,52 +83,6 @@ fn split_and_apply_alias(entries: Option<String>) -> Option<Vec<String>> {
     return Some(entry_vector);
 }
 
-fn get_account_id(query: String) -> String {
-    let url = format!("user/search?query={}", query);
-    let api_response = api::get_call_v3(url);
-    if api_response.is_err() {
-        eprintln!(
-            "Cannot search for provided assignee user. {:?}",
-            api_response
-        );
-        return String::new();
-    }
-    let account_response = &api_response.unwrap()[0];
-    if account_response.is_null() {
-        eprintln!("Cannot search for provided assignee user. ");
-        return String::new();
-    }
-    println!(
-        "Assigning the ticket to {}",
-        account_response["displayName"]
-    );
-    let account_id = String::from(account_response["accountId"].as_str().unwrap());
-    account_id
-}
-
-fn get_issuetype_id(project: String, entry: Option<String>) -> Option<String> {
-    if entry.is_none() {
-        return None;
-    }
-    let name = entry.unwrap();
-    let url = format!("issue/createmeta?projectKeys={}", project);
-    let api_response = api::get_call_v3(url);
-    if api_response.is_err() {
-        eprintln!("Error while verifying issue type: {:?}", api_response);
-        return None;
-    }
-    let project_list = &api_response.unwrap()["projects"];
-    for project in project_list.members() {
-        let issuetypes = &project["issuetypes"];
-        for issuetype in issuetypes.members() {
-            if issuetype["name"].as_str().unwrap_or("").to_lowercase() == name.to_lowercase() {
-                return Some(issuetype["id"].as_str().unwrap_or("").to_string());
-            }
-        }
-    }
-    None
-}
-
 fn get_or_ask(matches: &ArgMatches, key: &str, message: &str) -> Option<String> {
     if matches.is_present(key) {
         return Some(matches.value_of(key).unwrap().to_string());
@@ -192,7 +147,7 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
     }
     let assignee = if matches.is_present("assignee") {
         let assignee_query = matches.value_of("assignee").unwrap();
-        get_account_id(assignee_query.to_string())
+        utils::get_account_id(assignee_query.to_string())
     } else {
         config::get_config("account_id".to_string())
     };
@@ -224,7 +179,7 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
     let payload = CreationPayload {
         project: project.clone(),
         parent,
-        issuetype: get_issuetype_id(project, issuetype),
+        issuetype: utils::get_issuetype_id(project, issuetype),
         priority,
         custom,
         summary: summary.unwrap(),

@@ -24,6 +24,7 @@ jira-terminal help detail
 jira-terminal help fields
 jira-terminal help update
 jira-terminal help new
+jira-terminal help assign
 ```
 
 ```
@@ -227,4 +228,21 @@ OPTIONS:
     -P, --project <project>            Project Key to create the ticket.
     -s, --summary <summary>            Summary of ticket
     -t, --type <type>                  Issue type for new ticket.
+```
+
+### Assign
+```
+jira-terminal-assign 
+Assign a ticket to user.
+
+USAGE:
+    jira-terminal assign --ticket <ticket> --user <user>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -t, --ticket <ticket>    Ticket to use.
+    -u, --user <user>        Assign the ticket to the provided user.
 ```
