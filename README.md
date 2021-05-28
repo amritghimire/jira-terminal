@@ -23,6 +23,7 @@ jira-terminal help alias
 jira-terminal help detail
 jira-terminal help fields
 jira-terminal help update
+jira-terminal help new
 ```
 
 ```
@@ -196,4 +197,34 @@ OPTIONS:
 
 ARGS:
     <TICKET>    Ticket ID to update
+```
+
+
+### New
+```
+jira-terminal-new 
+Create a new ticket.
+
+USAGE:
+    jira-terminal new [FLAGS] [OPTIONS] --main <main> --project <project>
+
+FLAGS:
+    -h, --help       Prints help information
+    -M, --mininal    Only summary and description will be asked if not available.
+    -q, --quiet      Do not ask for missing options.
+    -V, --version    Prints version information
+
+OPTIONS:
+    -a, --assignee <assignee>          Assignee email of ticket
+    -c, --components <components>      Comma separated list of components of ticket
+    -C, --custom <custom>              Comma separated value pair for custom fields. You can use alias in value or key
+                                       itself. Example- "customfield_12305:value,alias_to_key:value2. You can use fields
+                                       subcommand to check the list of custom fields available. 
+    -d, --description <description>    Description of ticket
+    -l, --labels <labels>              Comma separated list of labels.
+    -m, --main <main>                  Main tiecket to create the sub-ticket.
+    -p, --priority <priority>          Priority Of the ticket.
+    -P, --project <project>            Project Key to create the ticket.
+    -s, --summary <summary>            Summary of ticket
+    -t, --type <type>                  Issue type for new ticket.
 ```

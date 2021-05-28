@@ -3,6 +3,7 @@ pub mod comments;
 pub mod details;
 mod fields;
 pub mod lists;
+mod new_issue;
 pub mod transitions;
 mod update;
 
@@ -43,4 +44,8 @@ pub fn handle_update_matches(matches: &ArgMatches) {
     let field = String::from(matches.value_of("field").unwrap());
     let value = String::from(matches.value_of("value").unwrap());
     update::update_jira_ticket(ticket, field, value);
+}
+
+pub fn handle_new_matches(matches: &ArgMatches) {
+    new_issue::handle_issue_creation(&matches);
 }
