@@ -1,10 +1,13 @@
 use chrono::DateTime;
+use clap::ArgMatches;
 use json;
 use regex::Captures;
 use regex::Regex;
+use std::io::{stdin, BufRead};
 
 use crate::config;
 use crate::jira::api;
+use crate::jira::utils::get_account_id;
 
 fn get_display_name_for_user(account_id: String) -> String {
     let config_object = config::parse_config().clone();
@@ -38,10 +41,18 @@ fn display_comment_object(comment: &json::JsonValue, re: &Regex) {
     }
     let comment_body = comment["body"].as_str().unwrap();
     let result = re.replace_all(comment_body, |caps: &Captures| {
-        format!("@{} ", get_display_name_for_user(caps[1].to_string()))
+        format!("@({}) ", get_display_name_for_user(caps[1].to_string()))
     });
     println!("{}", result);
     println!("\n");
+}
+
+fn change_mentioned_users(body: String) -> String {
+    let re = Regex::new(r"@\(([^)]*)\)").unwrap();
+    let result = re.replace_all(&body, |caps: &Captures| {
+        format!("[~accountid:{}] ", get_account_id(caps[1].to_string()))
+    });
+    return result.to_string();
 }
 
 pub fn display_comment_list(comments: &json::JsonValue) {
@@ -50,6 +61,48 @@ pub fn display_comment_list(comments: &json::JsonValue) {
     println!("");
     let re = Regex::new(r"\[~accountid:([^\]]*)\]").unwrap();
     for comment in comments["comments"].members() {
+        display_comment_object(comment, &re);
+    }
+}
+
+pub fn get_all_comments(ticket: String) {
+    let comments_response = api::get_call_v2(format!("issue/{}/comment", ticket));
+    if comments_response.is_err() {
+        println!("Cannot fetch the comments.");
+        return;
+    }
+    display_comment_list(&comments_response.unwrap());
+}
+
+pub fn add_new_comment(ticket: String, matches: &ArgMatches) {
+    let mut body = matches.value_of("body").unwrap_or("").to_string();
+    if body.is_empty() {
+        println!("Please enter the body of comment. (Use ctrl+d to end the body)");
+        let input = stdin();
+        let mut line = String::new();
+        let mut stream = input.lock();
+        while let Ok(n) = stream.read_line(&mut line) {
+            if n == 0 {
+                break;
+            }
+            body = format!("{}\n{}", body, line);
+
+            line = String::new();
+        }
+    }
+    let payload = json::object! {
+        "body": change_mentioned_users(body)
+    };
+    let update_response = api::post_call(format!("issue/{}/comment", ticket), payload, 2);
+    if update_response.is_err() {
+        println!("Error occured in API Call: {:?}", update_response);
+        return;
+    }
+    let response = json::parse(&update_response.unwrap());
+    println!("Successfully Added a new comment");
+    if response.is_ok() {
+        let comment = &response.unwrap();
+        let re = Regex::new(r"@\(([^)]*)\)").unwrap();
         display_comment_object(comment, &re);
     }
 }

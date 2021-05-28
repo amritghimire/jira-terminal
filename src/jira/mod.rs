@@ -57,3 +57,12 @@ pub fn handle_assign_matches(matches: &ArgMatches) {
     let user = String::from(matches.value_of("user").unwrap());
     assign::assign_task(ticket, user);
 }
+
+pub fn handle_comments_matches(matches: &ArgMatches) {
+    let ticket = String::from(matches.value_of("ticket").unwrap());
+    if matches.is_present("list") {
+        comments::get_all_comments(ticket);
+        return;
+    }
+    comments::add_new_comment(ticket, matches);
+}

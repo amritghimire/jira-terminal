@@ -25,6 +25,7 @@ jira-terminal help fields
 jira-terminal help update
 jira-terminal help new
 jira-terminal help assign
+jira-terminal help comment
 ```
 
 ```
@@ -245,4 +246,23 @@ FLAGS:
 OPTIONS:
     -t, --ticket <ticket>    Ticket to use.
     -u, --user <user>        Assign the ticket to the provided user.
+```
+
+### Comment
+```
+jira-terminal-comment 
+List or add comments to a ticket. Default action is adding.
+
+USAGE:
+    jira-terminal comment [FLAGS] [OPTIONS] --ticket <ticket>
+
+FLAGS:
+    -h, --help       Prints help information
+    -l, --list       List all the comments of a ticket.
+    -V, --version    Prints version information
+
+OPTIONS:
+    -b, --body <body>        Body of the comment. To mention someone, you can use @(query) The query can include jira
+                             username or display name or email address.
+    -t, --ticket <ticket>    Ticket to use.
 ```

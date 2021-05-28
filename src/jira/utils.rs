@@ -15,10 +15,7 @@ pub fn get_account_id(query: String) -> String {
         eprintln!("Cannot search for provided assignee user. ");
         return String::new();
     }
-    println!(
-        "Assigning the ticket to {}",
-        account_response["displayName"]
-    );
+    println!("Selecting user {}", account_response["displayName"]);
     let account_id = String::from(account_response["accountId"].as_str().unwrap());
     account_id
 }

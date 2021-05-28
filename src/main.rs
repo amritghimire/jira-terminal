@@ -38,6 +38,7 @@ fn main() {
        .subcommand(subcommands::alias::subcommand())
        .subcommand(subcommands::fields::subcommand())
        .subcommand(subcommands::assign::subcommand())
+       .subcommand(subcommands::comments::subcommand())
        .subcommand(subcommands::update::subcommand())
        .subcommand(subcommands::new_subcommand::subcommand())
        .get_matches();
