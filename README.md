@@ -18,7 +18,7 @@ Cargo will build the jira-terminal binary and place it in $HOME/.cargo/bin.
 You can also setup Rust toolchain from [Rust official site](https://www.rust-lang.org/tools/install)
 
 ### Manual Installation from Github
-Compiled binary versions of exa are uploaded to GitHub when a release is made. You can install exa manually by [downloading a release](https://github.com/amritghimire/jira-terminal/releases) , extracting it, and copying the binary to a directory in your $PATH, such as /usr/local/bin.
+Compiled binary versions of jira-terminal are uploaded to GitHub when a release is made. You can install jira-terminal manually by [downloading a release](https://github.com/amritghimire/jira-terminal/releases) , extracting it, and copying the binary to a directory in your $PATH, such as /usr/local/bin.
 
 
 ## Usage
