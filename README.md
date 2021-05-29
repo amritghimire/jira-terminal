@@ -3,10 +3,23 @@
 This application can be used for personal usage to manage jira from terminal.
 
 ## Installation
-You can download this application from [https://github.com/amritghimire/jira-terminal/releases](https://github.com/amritghimire/jira-terminal/releases)
-After you download this application, be sure to move it to one of the PATH.
+This application can be used in multiple platform.
+### Arch Linux
+This package is availabe in aur repository as [jira-terminal-bin](https://aur.archlinux.org/packages/jira-terminal-bin/)
 
-One of such path is `~/.local/bin/`
+### Debian/Ubuntu
+On debian based system, the deb file is available in [releases](https://github.com/amritghimire/jira-terminal/releases). You can download latest release from there. Please make sure libc is installed in your system.
+
+### Cargo
+If you already have a Rust environment set up, you can use the cargo install command:
+```cargo install jira-terminal```
+
+Cargo will build the jira-terminal binary and place it in $HOME/.cargo/bin.
+You can also setup Rust toolchain from [Rust official site](https://www.rust-lang.org/tools/install)
+
+### Manual Installation from Github
+Compiled binary versions of exa are uploaded to GitHub when a release is made. You can install exa manually by [downloading a release](https://github.com/amritghimire/jira-terminal/releases) , extracting it, and copying the binary to a directory in your $PATH, such as /usr/local/bin.
+
 
 ## Usage
 When running the application for first time, you will be asked with following values.
