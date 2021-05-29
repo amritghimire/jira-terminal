@@ -50,7 +50,7 @@ fn create_config() {
     let mut token = String::new();
     println!("Welcome to JIRA Terminal.");
     println!("Since this is your first run, we will ask you a few questions. ");
-    println!("Please enter your namespace of JIRA. (<namespace>.atlassian.net): ");
+    println!("Please enter your URL of JIRA. (Example: example.atlassian.net): ");
     io::stdin()
         .read_line(&mut namespace)
         .expect("Failed to read input.");
@@ -58,7 +58,7 @@ fn create_config() {
     io::stdin()
         .read_line(&mut email)
         .expect("Failed to read input.");
-    println!("Please create an API Token from https://id.atlassian.com/manage-profile/security/api-tokens ");
+    println!("Please create an API Token from https://id.atlassian.com/manage-profile/security/api-tokens. If your JIRA setup doesnot have api tokens plugin, you can enter the password too. ");
     println!("Once created, enter your API Token: ");
     io::stdin()
         .read_line(&mut token)

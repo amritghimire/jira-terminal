@@ -22,7 +22,7 @@ use ureq;
 /// ```
 pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, ureq::Error> {
     let url = format!(
-        "https://{}.atlassian.net/rest/api/{}/{}",
+        "https://{}/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url
     );
     let authentication = format!("Basic {}", api_request.password);
@@ -53,7 +53,7 @@ pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, ureq::Er
 /// ```
 pub fn post(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
     let url = format!(
-        "https://{}.atlassian.net/rest/api/{}/{}",
+        "https://{}/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url
     );
     let authentication = format!("Basic {}", api_request.password);
@@ -85,7 +85,7 @@ pub fn post(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
 /// ```
 pub fn put(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
     let url = format!(
-        "https://{}.atlassian.net/rest/api/{}/{}",
+        "https://{}/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url
     );
     let authentication = format!("Basic {}", api_request.password);
