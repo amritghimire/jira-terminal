@@ -7,7 +7,7 @@ description = "This is a command line application that can be used as a personal
 readme = "README.md"
 homepage = "https://github.com/amritghimire/jira-terminal"
 repository = "https://github.com/amritghimire/jira-terminal"
-keywords = ["jira","terminal","command line"]
+keywords = ["jira","terminal","command-line"]
 license = "AGPL-3.0-only"
 categories = ["command-line-utilities"]
 
