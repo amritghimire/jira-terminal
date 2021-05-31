@@ -21,6 +21,7 @@
 //!
 #[macro_use]
 extern crate clap;
+extern crate rpassword;
 use clap::App;
 
 pub mod api;

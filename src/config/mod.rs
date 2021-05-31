@@ -1,6 +1,7 @@
 use base64;
 use home;
 use json;
+use rpassword;
 use std::fs;
 use std::io;
 use std::io::Read;
@@ -47,7 +48,6 @@ fn create_config() {
     // Ask for the config file and create a new file.
     let mut namespace = String::new();
     let mut email = String::new();
-    let mut token = String::new();
     println!("Welcome to JIRA Terminal.");
     println!("Since this is your first run, we will ask you a few questions. ");
     println!("Please enter your URL of JIRA. (Example: example.atlassian.net): ");
@@ -59,10 +59,8 @@ fn create_config() {
         .read_line(&mut email)
         .expect("Failed to read input.");
     println!("Please create an API Token from https://id.atlassian.com/manage-profile/security/api-tokens. If your JIRA setup doesnot have api tokens plugin, you can enter the password too. ");
-    println!("Once created, enter your API Token: ");
-    io::stdin()
-        .read_line(&mut token)
-        .expect("Failed to read input.");
+    println!("Once created, enter your API Token: (The characters will not be visible in screen.Press enter after you entered the password or token) ");
+    let token = rpassword::read_password().unwrap();
     let user_password = format!("{}:{}", email.trim(), token.trim());
     let b64 = base64::encode(user_password);
 
