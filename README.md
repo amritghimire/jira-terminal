@@ -3,7 +3,9 @@
 This application can be used for personal usage to manage jira from terminal.
 
 ## Installation
+
 This application can be used in multiple platform.
+
 ### Arch Linux
 This package is availabe in aur repository as [jira-terminal-bin](https://aur.archlinux.org/packages/jira-terminal-bin/)
 
@@ -297,3 +299,6 @@ OPTIONS:
                              username or display name or email address.
     -t, --ticket <ticket>    Ticket to use.
 ```
+
+## Notes
+- The credentials and other configuration are stored in a file `~/.jira_terminal_configuration.json`. The base64 encoded version of credentials are only written tin the configuration file.
