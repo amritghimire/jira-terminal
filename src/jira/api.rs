@@ -1,7 +1,3 @@
-use json;
-
-use ureq;
-
 use crate::api;
 use crate::config;
 
@@ -20,7 +16,7 @@ fn get_call(endpoint: String, version: u8) -> Result<json::JsonValue, ureq::Erro
         password: config::get_config("token".to_string()),
         json: json::object! {},
         namespace: config::get_config("namespace".to_string()),
-        version: version,
+        version,
     };
     return api::get(api_request);
 }
@@ -44,7 +40,7 @@ pub fn post_call(
         password: config::get_config("token".to_string()),
         json: json_value,
         namespace: config::get_config("namespace".to_string()),
-        version: version,
+        version,
     };
     return api::post(api_request);
 }
@@ -68,7 +64,7 @@ pub fn put_call(
         password: config::get_config("token".to_string()),
         json: json_value,
         namespace: config::get_config("namespace".to_string()),
-        version: version,
+        version,
     };
     return api::put(api_request);
 }

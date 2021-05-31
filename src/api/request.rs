@@ -1,5 +1,3 @@
-use json;
-
 /// Structure to hold api request.
 pub struct ApiRequest {
     /// URL to hold make the request. Start without forward slash.

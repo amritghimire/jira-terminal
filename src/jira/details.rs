@@ -1,5 +1,3 @@
-use json;
-
 use crate::config;
 use crate::jira::api;
 use crate::jira::comments;
@@ -14,7 +12,7 @@ fn show_detail_field(value: &json::JsonValue, field: String) {
         return;
     }
     if field == "comment" {
-        println!("");
+        println!();
         comments::display_comment_list(value);
         return;
     }

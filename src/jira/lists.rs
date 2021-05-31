@@ -134,7 +134,7 @@ pub fn list_issues(matches: &ArgMatches) {
         display_header(&display_options[header]);
         total = total + display_options[header]["width"].as_usize().unwrap_or(0) + 1;
     }
-    println!("");
+    println!();
     println!("{:->width$}", "", width = total);
     for issue in issues.members() {
         for header in headers.clone() {
@@ -144,6 +144,6 @@ pub fn list_issues(matches: &ArgMatches) {
                 display_content(&display_options[header], &issue["fields"][header]);
             }
         }
-        println!("");
+        println!();
     }
 }

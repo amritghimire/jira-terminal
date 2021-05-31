@@ -47,6 +47,6 @@ pub fn handle_matches(mut app: App) {
         if result.is_err() {
             println!("Use jira-terminal help to view the available commands.");
         }
-        println!("");
+        println!();
     }
 }

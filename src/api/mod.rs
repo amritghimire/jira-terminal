@@ -1,6 +1,4 @@
 pub mod request;
-use json;
-use ureq;
 
 /// Call GET API request to JIRA with provided api request.
 /// This will act as service to call API.

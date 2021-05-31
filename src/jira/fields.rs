@@ -11,7 +11,7 @@ pub fn display_all_fields(ticket: String) {
         println!("Cannot fetch fields");
         return;
     }
-    println!("{:35}: {}", "Key", "Field Header");
+    println!("{:35}: Field Header", "Key");
     println!("{:-<65}", "-");
     for (field, value) in fields.entries() {
         println!("{:35}: {}", field, value["name"]);

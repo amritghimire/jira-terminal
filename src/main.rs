@@ -35,7 +35,7 @@ fn main() {
         .version(crate_version!())
         .author("Amrit Ghimire <oss@amritghimire.com>")
         .about("This is a command line application that can be used as a personal productivity tool for interacting with JIRA")
-        .subcommand(subcommands::transition::subcommand()) 
+        .subcommand(subcommands::transition::subcommand())
         .subcommand(subcommands::list::subcommand())
         .subcommand(subcommands::detail::subcommand())
         .subcommand(subcommands::alias::subcommand())
