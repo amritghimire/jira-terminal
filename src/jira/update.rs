@@ -1,6 +1,5 @@
 use crate::config;
 use crate::jira::api;
-use json;
 
 fn get_object_by_name(list: &json::JsonValue, name: String) -> Option<json::JsonValue> {
     for member in list.members() {
@@ -59,14 +58,13 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
             let update_json_value = get_object_by_name(&fields["allowedValues"], value);
             update_json[update_key.clone()] = update_json_value.into();
         }
+    } else if fields["schema"]["type"] == "array" {
+        let values: Vec<&str> = value.split(",").collect();
+        update_json[update_key.clone()] = values.into();
     } else {
-        if fields["schema"]["type"] == "array" {
-            let values: Vec<&str> = value.split(",").collect();
-            update_json[update_key.clone()] = values.into();
-        } else {
-            update_json[update_key.clone()] = value.into();
-        }
+        update_json[update_key.clone()] = value.into();
     }
+
     let payload = json::object! {
         "fields": update_json
     };

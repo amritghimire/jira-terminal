@@ -1,6 +1,5 @@
 use chrono::DateTime;
 use clap::ArgMatches;
-use json;
 use regex::Captures;
 use regex::Regex;
 use std::io::{stdin, BufRead};
@@ -58,7 +57,7 @@ fn change_mentioned_users(body: String) -> String {
 pub fn display_comment_list(comments: &json::JsonValue) {
     let total_comment = &comments["total"];
     println!("Total {} comment found. ", total_comment);
-    println!("");
+    println!();
     let re = Regex::new(r"\[~accountid:([^\]]*)\]").unwrap();
     for comment in comments["comments"].members() {
         display_comment_object(comment, &re);

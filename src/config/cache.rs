@@ -1,5 +1,4 @@
 use crate::api;
-use json;
 
 /// Get the user account id from email provided by user while config creation.
 /// For most of the API Call, user email will not be valid due to recent changes in GDPR policies.
@@ -20,7 +19,7 @@ pub fn get_username(configuration: &json::JsonValue) -> String {
         configuration["email"].as_str().unwrap().to_string()
     );
     let api_request = api::request::ApiRequest {
-        url: url,
+        url,
         username: configuration["email"].as_str().unwrap().to_string(),
         password: configuration["token"].as_str().unwrap().to_string(),
         json: json::object! {},

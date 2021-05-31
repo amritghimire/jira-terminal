@@ -2,7 +2,6 @@ use crate::config;
 use crate::jira::api;
 use crate::jira::utils;
 use clap::ArgMatches;
-use json;
 use std::io::{stdin, BufRead};
 
 #[derive(Debug, Default)]

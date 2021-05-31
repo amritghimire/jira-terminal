@@ -1,5 +1,3 @@
-use json;
-
 use crate::config;
 use crate::jira::api;
 

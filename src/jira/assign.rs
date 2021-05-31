@@ -1,6 +1,5 @@
 use crate::config;
 use crate::jira::{api, utils};
-use json;
 
 pub fn assign_task(ticket: String, user: String) {
     let aliased_query = config::get_alias_or(user);
