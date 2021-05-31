@@ -42,20 +42,32 @@ jira-terminal help comment
 ```
 
 ```
+JIRA Terminal 1.0.1
 Amrit Ghimire <oss@amritghimire.com>
 This is a command line application that can be used as a personal productivity tool for interacting with JIRA
 
 USAGE:
-    jira-terminal [SUBCOMMAND]
+    JIRA Terminal [SUBCOMMAND]
 
 FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+    -h, --help       
+            Prints help information
+
+    -V, --version    
+            Prints version information
+
 
 SUBCOMMANDS:
+    alias         Configuration for alias. One of add,list or remove is required.
+    assign        Assign a ticket to user.
+    comment       List or add comments to a ticket. Default action is adding.
+    detail        Detail of a JIRA tickets..
+    fields        List of possible Fields for details...
     help          Prints this message or the help of the given subcommand(s)
     list          List the issues from JIRA.
+    new           Create a new ticket.
     transition    Transition of ticket across status.
+    update        Update a field for a ticket
 
 ```
 
@@ -99,7 +111,13 @@ OPTIONS:
     -T, --text <TEXT>                 This is a master-field that allows you to search all text fields for issues.
     -t, --type <TYPE>...              Search for issues that have a particular issue type. 
 
+You can specify the following fields multiple time to filter by multiple values.
+assignee, component, epic, filter, label, main, priority, project, reporter, sprint, status, type.
+
+For example to fetch list of tickets in Backlog and In progress, you can use
+jira-terminal list -s Backlog -s 'In Progress'
 ```
+
 
 ### Transition
 
