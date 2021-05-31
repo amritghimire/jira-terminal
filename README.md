@@ -23,7 +23,7 @@ Compiled binary versions of jira-terminal are uploaded to GitHub when a release 
 
 ## Usage
 When running the application for first time, you will be asked with following values.
-- namespace [This will be used to identify the namespace to be used.]
+- hostname [This will be used to identify the jira hostname to be used.]
 - email [Email address you use to login with the application.]
 - token [You can obtain the app password from the link specified in the application]
 

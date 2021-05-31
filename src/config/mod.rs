@@ -46,7 +46,7 @@ fn create_config() {
     let mut email = String::new();
     println!("Welcome to JIRA Terminal.");
     println!("Since this is your first run, we will ask you a few questions. ");
-    println!("Please enter your URL of JIRA. (Example: example.atlassian.net): ");
+    println!("Please enter your hostname of JIRA. (Example: example.atlassian.net): ");
     io::stdin()
         .read_line(&mut namespace)
         .expect("Failed to read input.");
