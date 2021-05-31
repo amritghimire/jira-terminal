@@ -44,7 +44,7 @@ jira-terminal help comment
 ```
 
 ```
-JIRA Terminal 1.0.1
+JIRA Terminal 1.1.0
 Amrit Ghimire <oss@amritghimire.com>
 This is a command line application that can be used as a personal productivity tool for interacting with JIRA
 

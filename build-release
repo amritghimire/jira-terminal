@@ -21,8 +21,8 @@ case `uname -s` in
         echo "Building static binaries using ekidd/rust-musl-builder"
         docker pull clux/muslrust
         docker run -v $PWD:/volume --rm -t clux/muslrust cargo build --release
-        cp "target/x86_64-unknown-linux-musl/release/$1" "$1"
-        zip "$1"-"$2".zip "$1"
+        tar -czvf "$1-$2.tar.gz" "target/x86_64-unknown-linux-musl/release/$1"
+        sha256sum "$1-$2.tar.gz"
         ;;
     *)
         echo "Building standard release binaries"
