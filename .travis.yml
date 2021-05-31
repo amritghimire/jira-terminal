@@ -22,7 +22,9 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file_glob: true
-  file: "jira-terminal-${TRAVIS_TAG}-${TRAVIS_OS_NAME}.*"
+  file: 
+    - "jira-terminal-${TRAVIS_TAG}-${TRAVIS_OS_NAME}.*"
+    - "jira-terminal"
   skip_cleanup: true
   on:
     rust: stable
