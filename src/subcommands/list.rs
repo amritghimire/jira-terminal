@@ -142,4 +142,10 @@ You can pass alias as option for display. You can save alias using alias subcomm
                .value_name("ALIAS")
                .takes_value(true)
                )
+            .after_help("You can specify the following fields multiple time to filter by multiple values.
+assignee, component, epic, filter, label, main, priority, project, reporter, sprint, status, type.
+
+For example to fetch list of tickets in Backlog and In progress, you can use
+jira-terminal list -s Backlog -s 'In Progress' 
+            ")
 }
