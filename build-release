@@ -22,11 +22,6 @@ case `uname -s` in
         docker pull clux/muslrust
         docker run -v $PWD:/volume --rm -t clux/muslrust cargo build --release
         cp "target/x86_64-unknown-linux-musl/release/$1" "$1"
-        ./$1 autocompletion --shell zsh > "_$1.zsh"
-        ./$1 autocompletion --shell bash > "_$1.bash"
-        ./$1 autocompletion --shell powershell > "_$1.powershell"
-        ./$1 autocompletion --shell fish > "_$1.fish"
-        ./$1 autocompletion --shell elvish > "_$1.elvish"
         tar -czvf "$1-$2.tar.gz" "$1"
         sha256sum "$1-$2.tar.gz"
         ;;
