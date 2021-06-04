@@ -23,6 +23,20 @@ You can also setup Rust toolchain from [Rust official site](https://www.rust-lan
 Compiled binary versions of jira-terminal are uploaded to GitHub when a release is made. You can install jira-terminal manually by [downloading a release](https://github.com/amritghimire/jira-terminal/releases) , extracting it, and copying the binary to a directory in your $PATH, such as /usr/local/bin.
 
 
+## Autocompletion Script
+The autocompletion script can be found in [the release section](https://github.com/amritghimire/jira-terminal/releases).
+You can download the autocompletion script from there or use our application to generate the script.
+To generate the script, run:
+
+```bash
+jira-terminal autocompletion --shell [zsh|bash|fish|powershell|elvish] > _jira.terminal
+```
+Depending on your shell, you can move your autocompletion file to the following location:
+- *ZSH* - `/usr/share/zsh/site-functions/_jira-terminal`
+- *BASH* - `/usr/share/bash-completion/completions/_jira-terminal`
+- *Fish* - `/share/fish/vendor_completions.d/_jira-terminal`
+
+
 ## Usage
 When running the application for first time, you will be asked with following values.
 - hostname [This will be used to identify the jira hostname to be used.]
@@ -41,36 +55,33 @@ jira-terminal help update
 jira-terminal help new
 jira-terminal help assign
 jira-terminal help comment
+jira-terminal help autocompletion
 ```
 
 ```
-JIRA Terminal 1.1.0
+JIRA Terminal 1.2.0
 Amrit Ghimire <oss@amritghimire.com>
 This is a command line application that can be used as a personal productivity tool for interacting with JIRA
 
 USAGE:
-    JIRA Terminal [SUBCOMMAND]
+    jira-terminal [SUBCOMMAND]
 
 FLAGS:
-    -h, --help       
-            Prints help information
-
-    -V, --version    
-            Prints version information
-
+    -h, --help       Prints help information
+    -V, --version    Prints version information
 
 SUBCOMMANDS:
-    alias         Configuration for alias. One of add,list or remove is required.
-    assign        Assign a ticket to user.
-    comment       List or add comments to a ticket. Default action is adding.
-    detail        Detail of a JIRA tickets..
-    fields        List of possible Fields for details...
-    help          Prints this message or the help of the given subcommand(s)
-    list          List the issues from JIRA.
-    new           Create a new ticket.
-    transition    Transition of ticket across status.
-    update        Update a field for a ticket
-
+    alias             Configuration for alias. One of add,list or remove is required.
+    assign            Assign a ticket to user.
+    autocompletion    Generate autocompletion script..
+    comment           List or add comments to a ticket. Default action is adding.
+    detail            Detail of a JIRA tickets..
+    fields            List of possible Fields for details...
+    help              Prints this message or the help of the given subcommand(s)
+    list              List the issues from JIRA.
+    new               Create a new ticket.
+    transition        Transition of ticket across status.
+    update            Update a field for a ticket
 ```
 
 ### List of Tickets

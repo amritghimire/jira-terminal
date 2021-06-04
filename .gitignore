@@ -1,1 +1,3 @@
 /target
+_jira-terminal.*
+jira-terminal*.tar.gz
