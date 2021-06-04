@@ -25,6 +25,7 @@ deploy:
   file: 
     - "jira-terminal-${TRAVIS_TAG}-${TRAVIS_OS_NAME}.*"
     - "jira-terminal"
+    - "_jira-terminal.*"
   skip_cleanup: true
   on:
     rust: stable
