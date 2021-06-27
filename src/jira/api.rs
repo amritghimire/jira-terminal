@@ -18,7 +18,7 @@ fn get_call(endpoint: String, version: u8) -> Result<json::JsonValue, ureq::Erro
         namespace: config::get_config("namespace".to_string()),
         version,
     };
-    return api::get(api_request);
+    api::get(api_request)
 }
 
 /// Call the POST API Service for provided endpoint.
@@ -42,7 +42,7 @@ pub fn post_call(
         namespace: config::get_config("namespace".to_string()),
         version,
     };
-    return api::post(api_request);
+    api::post(api_request)
 }
 
 /// Call the PUT API Service for provided endpoint.
@@ -66,7 +66,7 @@ pub fn put_call(
         namespace: config::get_config("namespace".to_string()),
         version,
     };
-    return api::put(api_request);
+    api::put(api_request)
 }
 
 /// Shortcut for version 2 get_call.

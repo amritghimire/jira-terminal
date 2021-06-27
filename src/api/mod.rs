@@ -28,7 +28,7 @@ pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, ureq::Er
         .set("Authorization", &authentication)
         .call()?
         .into_string()?;
-    return Ok(json::parse(&response).unwrap());
+    Ok(json::parse(&response).unwrap())
 }
 
 /// Call POST API request to JIRA with provided api request.
@@ -60,7 +60,7 @@ pub fn post(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
         .set("Content-Type", "application/json")
         .send_string(&json::stringify(api_request.json))?
         .into_string()?;
-    return Ok(response);
+    Ok(response)
 }
 
 /// Call PUT API request to JIRA with provided api request.
@@ -92,5 +92,5 @@ pub fn put(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
         .set("Content-Type", "application/json")
         .send_string(&json::stringify(api_request.json))?
         .into_string()?;
-    return Ok(response);
+    Ok(response)
 }

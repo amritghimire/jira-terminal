@@ -13,7 +13,7 @@ use crate::jira::api;
 /// let project_code = get_project_code("ABC-123".to_string());
 /// ```
 fn get_project_code(ticket: String) -> String {
-    String::from(ticket.split("-").next().unwrap())
+    String::from(ticket.split('-').next().unwrap())
 }
 
 /// Get the transition Object itself from JIRA server.
@@ -45,7 +45,7 @@ fn get_transitions(ticket: String) -> Option<json::JsonValue> {
         let id: u16 = transition["id"].as_str().unwrap().parse().unwrap();
         transition_object[name] = id.into();
     }
-    let project_code = get_project_code(ticket.clone());
+    let project_code = get_project_code(ticket);
     config::set_transitions(project_code, transition_object);
     Some(transitions.clone())
 }
@@ -74,7 +74,7 @@ pub fn get_transition_code(ticket: String, transition_name: String) -> Option<u1
     if (!transitioned_object.is_null()) && transitioned_object.is_number() {
         return transitioned_object.as_u16();
     }
-    return None;
+    None
 }
 
 /// Print the list of possible transitions.
@@ -115,7 +115,7 @@ pub fn print_transition_lists(ticket: String) {
 /// move_ticket_status("ABC-1234", "In Progress");
 /// ```
 pub fn move_ticket_status(ticket: String, status: String) {
-    let transition_options = get_transition_code(ticket.clone(), status.clone());
+    let transition_options = get_transition_code(ticket.clone(), status);
     if transition_options.is_none() {
         println!("Invalid status...");
         return;

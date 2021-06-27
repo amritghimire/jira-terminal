@@ -14,7 +14,7 @@ script:
   # Require `cargo fmt` to have been run.
   - cargo fmt -- --check
   # Require clippy to pass without warnings. 
-  - cargo clippy
+  - cargo clippy -- -D warnings
   # Build the code.
   - cargo build
 before_deploy: "./build-release jira-terminal ${TRAVIS_TAG}-${TRAVIS_OS_NAME}"

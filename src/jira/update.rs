@@ -18,10 +18,10 @@ fn get_object_by_name(list: &json::JsonValue, name: String) -> Option<json::Json
 
 fn get_object_lists_from_value(list: &json::JsonValue, value: String) -> Vec<json::JsonValue> {
     let mut selected_entries: Vec<json::JsonValue> = vec![];
-    for name in value.split(",") {
+    for name in value.split(',') {
         let object = get_object_by_name(&list, config::get_alias_or(name.to_string()));
-        if object.is_some() {
-            selected_entries.push(object.unwrap());
+        if let Some(entry) = object {
+            selected_entries.push(entry);
         }
     }
     selected_entries
@@ -53,16 +53,16 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     if fields["allowedValues"].is_array() {
         if fields["schema"]["type"] == "array" {
             let update_json_value = get_object_lists_from_value(&fields["allowedValues"], value);
-            update_json[update_key.clone()] = update_json_value.into();
+            update_json[update_key] = update_json_value.into();
         } else {
             let update_json_value = get_object_by_name(&fields["allowedValues"], value);
-            update_json[update_key.clone()] = update_json_value.into();
+            update_json[update_key] = update_json_value.into();
         }
     } else if fields["schema"]["type"] == "array" {
-        let values: Vec<&str> = value.split(",").collect();
-        update_json[update_key.clone()] = values.into();
+        let values: Vec<&str> = value.split(',').collect();
+        update_json[update_key] = values.into();
     } else {
-        update_json[update_key.clone()] = value.into();
+        update_json[update_key] = value.into();
     }
 
     let payload = json::object! {

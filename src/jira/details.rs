@@ -58,7 +58,7 @@ pub fn show_details(ticket: String, fields: String) {
     let fields_expanded = if fields == "all" {
         String::from("key,summary,description,status,issuetype,priority,labels,assignee,components,creator,reporter,project,comment")
     } else {
-        config::get_alias_or(fields.clone())
+        config::get_alias_or(fields)
     };
     let details_response = api::get_call_v2(format!("issue/{}", ticket));
     if details_response.is_err() {
@@ -67,7 +67,7 @@ pub fn show_details(ticket: String, fields: String) {
         return;
     }
 
-    let fields_list = fields_expanded.trim().split(",");
+    let fields_list = fields_expanded.trim().split(',');
     let detail_object = details_response.unwrap();
     for field in fields_list {
         if field == "key" {

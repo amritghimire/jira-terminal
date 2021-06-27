@@ -54,7 +54,7 @@ impl CreationPayload {
             payload["components"] = component_lists.into();
         }
         if let Some(custom) = self.custom {
-            let custom_fields = custom.split(",");
+            let custom_fields = custom.split(',');
             for custom_field in custom_fields {
                 if let Some((key, value)) = custom_field.split_once(":") {
                     payload[config::get_alias_or(key.to_string())] =
@@ -70,16 +70,13 @@ impl CreationPayload {
 }
 
 fn split_and_apply_alias(entries: Option<String>) -> Option<Vec<String>> {
-    if entries.is_none() {
-        return None;
-    }
-    let entry_value = entries.unwrap();
-    let entry_list = entry_value.split(",");
+    let entry_value = entries.as_ref()?;
+    let entry_list = entry_value.split(',');
     let mut entry_vector: Vec<String> = vec![];
     for entry in entry_list {
         entry_vector.push(config::get_alias_or(entry.to_string()));
     }
-    return Some(entry_vector);
+    Some(entry_vector)
 }
 
 fn get_or_ask(matches: &ArgMatches, key: &str, message: &str) -> Option<String> {
@@ -184,22 +181,21 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
         summary: summary.unwrap(),
         labels: split_and_apply_alias(labels),
         components: split_and_apply_alias(components),
-        assignee: assignee.clone(),
+        assignee,
         description: if description.is_empty() {
             None
         } else {
             Some(description)
         },
-        ..Default::default()
     };
     let json_node = payload.json();
-    let created_api_response = api::post_call(format!("issue"), json_node, 2);
+    let created_api_response = api::post_call("issue".to_string(), json_node, 2);
     if created_api_response.is_err() {
         eprintln!("Unable to create ticket. {:?}", created_api_response);
     }
     let response = json::parse(&created_api_response.unwrap());
-    if response.is_ok() {
-        let key = &response.unwrap()["key"];
+    if let Ok(response_object) = response {
+        let key = &response_object["key"];
         println!("New Ticket KEY: {} Created.", key);
     }
 }
