@@ -12,7 +12,7 @@ fn display_content(option: &json::JsonValue, value: &json::JsonValue) {
         for entry in value.members() {
             contents.push(String::from(entry[field].as_str().unwrap_or("-")))
         }
-        content = String::from(contents.join(", "));
+        content = contents.join(", ");
     } else if value.is_object() {
         let field = option["field"].as_str().unwrap_or("name");
         content = String::from(value[field].as_str().unwrap_or("-"))
@@ -56,8 +56,8 @@ fn form_jql(matches: &ArgMatches) -> String {
     for field in fields {
         if field == "jql" {
             let jql_option = matches.value_of("jql");
-            if jql_option.is_some() {
-                criterias.push(config::get_alias_or(jql_option.unwrap().to_string()));
+            if let Some(jql) = jql_option {
+                criterias.push(config::get_alias_or(jql.to_string()));
             }
         } else if field == "text" {
             let jql_option = matches.value_of("text");
@@ -79,8 +79,7 @@ fn form_jql(matches: &ArgMatches) -> String {
             }
         }
     }
-    let jql = criterias.join(" AND ");
-    jql
+    criterias.join(" AND ")
 }
 
 pub fn list_issues(matches: &ArgMatches) {
@@ -123,8 +122,8 @@ pub fn list_issues(matches: &ArgMatches) {
         "project": {"title": "Project", "width": 15, "field": "name"},
         "summary": {"title": "Summary", "width": 100}
     };
-    let headers_to_display = display.clone();
-    let headers = headers_to_display.trim().split(",");
+    let headers_to_display = display;
+    let headers = headers_to_display.trim().split(',');
     let mut total = 0;
     for header in headers.clone() {
         if display_options[header].is_null() {

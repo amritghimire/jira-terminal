@@ -24,7 +24,7 @@ fn get_config_file_name() -> String {
     let config_file_name: String = String::from(".jira_terminal_configuration.json");
     match home::home_dir() {
         Some(path) => return format!("{}/{}", path.display(), config_file_name),
-        None => return config_file_name,
+        None => config_file_name,
     }
 }
 
@@ -99,7 +99,7 @@ fn write_config(configuration: json::JsonValue) {
 /// ```
 pub fn update_config(key: String, value: String) {
     let mut config_value = parse_config();
-    config_value[key] = value.clone().into();
+    config_value[key] = value.into();
     write_config(config_value);
 }
 
@@ -117,7 +117,7 @@ pub fn update_config(key: String, value: String) {
 /// ```
 pub fn update_config_object(key: String, value: json::JsonValue) {
     let mut config_value = parse_config();
-    config_value[key] = value.clone().into();
+    config_value[key] = value;
     write_config(config_value);
 }
 
@@ -219,11 +219,11 @@ pub fn remove_alias(alias: String) {
     let mut alias_object = config_value["alias"].clone();
     println!(
         "Removing alias ({}) with value: {}",
-        alias.clone(),
+        alias,
         alias_object[alias.clone()]
     );
     alias_object.remove(alias.to_lowercase().as_str());
-    config_value["alias"] = alias_object.into();
+    config_value["alias"] = alias_object;
     write_config(config_value);
 }
 
@@ -247,7 +247,7 @@ pub fn remove_alias(alias: String) {
 /// ```
 pub fn set_transitions(project_code: String, transitions: json::JsonValue) {
     let mut config_value = parse_config();
-    config_value["transitions"][project_code] = transitions.into();
+    config_value["transitions"][project_code] = transitions;
     write_config(config_value);
 }
 

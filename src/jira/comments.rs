@@ -9,12 +9,12 @@ use crate::jira::api;
 use crate::jira::utils::get_account_id;
 
 fn get_display_name_for_user(account_id: String) -> String {
-    let config_object = config::parse_config().clone();
+    let config_object = config::parse_config();
     let cached_name = &config_object["accounts"][account_id.clone()];
     if !cached_name.is_empty() {
         return cached_name.as_str().unwrap().to_string();
     }
-    let details_response = api::get_call_v2(format!("user/?accountId={}", account_id.clone()));
+    let details_response = api::get_call_v2(format!("user/?accountId={}", account_id));
     if details_response.is_err() {
         return format!("[{}]", account_id);
     }
@@ -25,7 +25,7 @@ fn get_display_name_for_user(account_id: String) -> String {
     let mut accounts = config_object["accounts"].clone();
     accounts[account_id] = display_name.as_str().unwrap().to_string().into();
     config::update_config_object("accounts".to_string(), accounts);
-    format!("{}", display_name.as_str().unwrap())
+    display_name.as_str().unwrap().to_string()
 }
 
 fn display_comment_object(comment: &json::JsonValue, re: &Regex) {
@@ -51,7 +51,7 @@ fn change_mentioned_users(body: String) -> String {
     let result = re.replace_all(&body, |caps: &Captures| {
         format!("[~accountid:{}] ", get_account_id(caps[1].to_string()))
     });
-    return result.to_string();
+    result.to_string()
 }
 
 pub fn display_comment_list(comments: &json::JsonValue) {
@@ -99,8 +99,8 @@ pub fn add_new_comment(ticket: String, matches: &ArgMatches) {
     }
     let response = json::parse(&update_response.unwrap());
     println!("Successfully Added a new comment");
-    if response.is_ok() {
-        let comment = &response.unwrap();
+    if let Ok(response_object) = response {
+        let comment = &response_object;
         let re = Regex::new(r"@\(([^)]*)\)").unwrap();
         display_comment_object(comment, &re);
     }

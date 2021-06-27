@@ -21,10 +21,7 @@ pub fn get_account_id(query: String) -> String {
 }
 
 pub fn get_issuetype_id(project: String, entry: Option<String>) -> Option<String> {
-    if entry.is_none() {
-        return None;
-    }
-    let name = entry.unwrap();
+    let name = entry.as_ref()?;
     let url = format!("issue/createmeta?projectKeys={}", project);
     let api_response = api::get_call_v3(url);
     if api_response.is_err() {
