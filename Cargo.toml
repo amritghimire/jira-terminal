@@ -1,6 +1,6 @@
 [package]
 name = "jira-terminal"
-version = "1.2.0"
+version = "1.3.0"
 authors = ["Amrit Ghimire <iamritghimire@gmail.com>"]
 edition = "2018"
 description = "This is a command line application that can be used as a personal productivity tool for interacting with JIRA"
