@@ -1,5 +1,61 @@
 pub mod request;
 
+fn handle_response_error_json(
+    response: Result<ureq::Response, ureq::Error>,
+) -> Result<json::JsonValue, ureq::Error> {
+    match response {
+        Ok(r) => {
+            let response_string = r.into_string()?;
+            Ok(json::parse(&response_string).unwrap())
+        }
+        Err(ureq::Error::Status(code, r)) => {
+            eprintln!("JIRA API returned with status code {}. ", code);
+            let response_string = r.into_string()?;
+            match json::parse(&response_string) {
+                Ok(j) => {
+                    println!("{}", json::stringify_pretty(j, 4));
+                }
+                Err(_) => {
+                    println!("{}", response_string);
+                }
+            }
+            Err(ureq::Error::Status(
+                code,
+                ureq::Response::new(code, "API", "API Error").unwrap(),
+            ))
+        }
+        Err(e) => Err(e),
+    }
+}
+
+fn handle_response_error(
+    response: Result<ureq::Response, ureq::Error>,
+) -> Result<String, ureq::Error> {
+    match response {
+        Ok(r) => {
+            let response_string = r.into_string()?;
+            Ok(response_string)
+        }
+        Err(ureq::Error::Status(code, r)) => {
+            eprintln!("JIRA API returned with status code {}. ", code);
+            let response_string = r.into_string()?;
+            match json::parse(&response_string) {
+                Ok(j) => {
+                    println!("{}", json::stringify_pretty(j, 4));
+                }
+                Err(_) => {
+                    println!("{}", response_string);
+                }
+            }
+            Err(ureq::Error::Status(
+                code,
+                ureq::Response::new(code, "API", "API Error").unwrap(),
+            ))
+        }
+        Err(e) => Err(e),
+    }
+}
+
 /// Call GET API request to JIRA with provided api request.
 /// This will act as service to call API.
 ///
@@ -24,11 +80,8 @@ pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, ureq::Er
         api_request.namespace, api_request.version, api_request.url
     );
     let authentication = format!("Basic {}", api_request.password);
-    let response = ureq::get(&url)
-        .set("Authorization", &authentication)
-        .call()?
-        .into_string()?;
-    Ok(json::parse(&response).unwrap())
+    let response = ureq::get(&url).set("Authorization", &authentication).call();
+    handle_response_error_json(response)
 }
 
 /// Call POST API request to JIRA with provided api request.
@@ -55,12 +108,11 @@ pub fn post(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
         api_request.namespace, api_request.version, api_request.url
     );
     let authentication = format!("Basic {}", api_request.password);
-    let response: String = ureq::post(&url)
+    let response = ureq::post(&url)
         .set("Authorization", &authentication)
         .set("Content-Type", "application/json")
-        .send_string(&json::stringify(api_request.json))?
-        .into_string()?;
-    Ok(response)
+        .send_string(&json::stringify(api_request.json));
+    handle_response_error(response)
 }
 
 /// Call PUT API request to JIRA with provided api request.
@@ -87,10 +139,9 @@ pub fn put(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
         api_request.namespace, api_request.version, api_request.url
     );
     let authentication = format!("Basic {}", api_request.password);
-    let response: String = ureq::put(&url)
+    let response = ureq::put(&url)
         .set("Authorization", &authentication)
         .set("Content-Type", "application/json")
-        .send_string(&json::stringify(api_request.json))?
-        .into_string()?;
-    Ok(response)
+        .send_string(&json::stringify(api_request.json));
+    handle_response_error(response)
 }
