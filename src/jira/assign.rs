@@ -9,8 +9,8 @@ pub fn assign_task(ticket: String, user: String) {
     };
     let update_response = api::put_call(format!("issue/{}/assignee", ticket), payload, 3);
     if update_response.is_err() {
-        println!("Error occured in API Call: {:?}", update_response);
-        return;
+        eprintln!("Error occured While assigning the ticket.");
+        std::process::exit(1);
     }
     let response = update_response.unwrap();
     println!("Successfully Assigned {}", response);

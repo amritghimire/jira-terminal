@@ -13,10 +13,10 @@ fn handle_response_error_json(
             let response_string = r.into_string()?;
             match json::parse(&response_string) {
                 Ok(j) => {
-                    println!("{}", json::stringify_pretty(j, 4));
+                    eprintln!("{}", json::stringify_pretty(j, 4));
                 }
                 Err(_) => {
-                    println!("{}", response_string);
+                    eprintln!("{}", response_string);
                 }
             }
             Err(ureq::Error::Status(
@@ -41,10 +41,10 @@ fn handle_response_error(
             let response_string = r.into_string()?;
             match json::parse(&response_string) {
                 Ok(j) => {
-                    println!("{}", json::stringify_pretty(j, 4));
+                    eprintln!("{}", json::stringify_pretty(j, 4));
                 }
                 Err(_) => {
-                    println!("{}", response_string);
+                    eprintln!("{}", response_string);
                 }
             }
             Err(ureq::Error::Status(

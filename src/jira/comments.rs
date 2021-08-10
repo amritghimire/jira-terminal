@@ -67,8 +67,8 @@ pub fn display_comment_list(comments: &json::JsonValue) {
 pub fn get_all_comments(ticket: String) {
     let comments_response = api::get_call_v2(format!("issue/{}/comment", ticket));
     if comments_response.is_err() {
-        println!("Cannot fetch the comments.");
-        return;
+        eprintln!("Cannot fetch the comments.");
+        std::process::exit(1);
     }
     display_comment_list(&comments_response.unwrap());
 }
@@ -94,8 +94,8 @@ pub fn add_new_comment(ticket: String, matches: &ArgMatches) {
     };
     let update_response = api::post_call(format!("issue/{}/comment", ticket), payload, 2);
     if update_response.is_err() {
-        println!("Error occured in API Call: {:?}", update_response);
-        return;
+        eprintln!("Error occured while adding comment.");
+        std::process::exit(1);
     }
     let response = json::parse(&update_response.unwrap());
     println!("Successfully Added a new comment");

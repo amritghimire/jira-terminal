@@ -51,7 +51,8 @@ pub fn handle_matches(mut app: App) {
         if shell_parse.is_err() {
             eprintln!(
                 "Invalid shell name passed. Only bash, fish, zsh, powershell, elvish are allowed."
-            )
+            );
+            std::process::exit(1);
         }
         let shell = shell_parse.unwrap();
         app.gen_completions_to("jira-terminal", shell, &mut io::stdout());

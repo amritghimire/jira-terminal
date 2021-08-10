@@ -91,8 +91,8 @@ pub fn get_transition_code(ticket: String, transition_name: String) -> Option<u1
 pub fn print_transition_lists(ticket: String) {
     let transition_object_response = get_transitions(ticket.clone());
     if transition_object_response.is_none() {
-        println!("Cannot find transitions for {}", ticket);
-        return;
+        eprintln!("Cannot find transitions for {}", ticket);
+        std::process::exit(1);
     }
     let transitions = transition_object_response.unwrap();
     println!("Allowed transitions for {} are as below: ", ticket);
@@ -117,8 +117,8 @@ pub fn print_transition_lists(ticket: String) {
 pub fn move_ticket_status(ticket: String, status: String) {
     let transition_options = get_transition_code(ticket.clone(), status);
     if transition_options.is_none() {
-        println!("Invalid status...");
-        return;
+        eprintln!("Invalid status...");
+        std::process::exit(1);
     }
     let transition_code = transition_options.unwrap();
     let json_object = json::object! {
@@ -129,8 +129,8 @@ pub fn move_ticket_status(ticket: String, status: String) {
     let transitions_response =
         api::post_call(format!("issue/{}/transitions", ticket), json_object, 3);
     if transitions_response.is_err() {
-        println!("Unable to perform transition. {:?}", transitions_response);
-        return;
+        eprintln!("Unable to perform transition.");
+        std::process::exit(1);
     }
     let response = transitions_response.unwrap();
     println!("Successfully Completed {}", response);

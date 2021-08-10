@@ -62,9 +62,8 @@ pub fn show_details(ticket: String, fields: String) {
     };
     let details_response = api::get_call_v2(format!("issue/{}", ticket));
     if details_response.is_err() {
-        println!("Error occured when searching tickets. ");
-        println!("{:?}", details_response);
-        return;
+        eprintln!("Error occured when searching tickets. ");
+        std::process::exit(1);
     }
 
     let fields_list = fields_expanded.trim().split(',');
