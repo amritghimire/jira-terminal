@@ -32,22 +32,22 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     let update_key = config::get_alias_or(key);
     let fields_response = api::get_call_v2(format!("issue/{}/editmeta", ticket));
     if fields_response.is_err() {
-        println!("Error occured in API Call: {:?}", fields_response);
-        return;
+        eprintln!("Error occured while updating the ticket.");
+        std::process::exit(1);
     }
     let fields = &fields_response.unwrap()["fields"][update_key.clone()];
     let mut update_json = json::object! {};
     if fields.is_null() {
-        println!("Cannot fetch fields");
-        return;
+        eprintln!("Cannot fetch fields");
+        std::process::exit(1);
     }
     if !fields["autoCompleteUrl"].is_null() {
-        println!("Cannot update provided key.");
-        return;
+        eprintln!("Cannot update provided key.");
+        std::process::exit(1);
     }
     if update_key == "comment" || update_key == "assignee" {
-        println!("Comment and assignee has their own section. Please check help for details.");
-        return;
+        eprintln!("Comment and assignee has their own section. Please check help for details.");
+        std::process::exit(1);
     }
 
     if fields["allowedValues"].is_array() {
@@ -70,8 +70,8 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     };
     let update_response = api::put_call(format!("issue/{}", ticket), payload, 3);
     if update_response.is_err() {
-        println!("Error occured in API Call: {:?}", update_response);
-        return;
+        eprintln!("Error occured while updating the ticket");
+        std::process::exit(1);
     }
     let response = update_response.unwrap();
     println!("Successfully Updated {}", response);

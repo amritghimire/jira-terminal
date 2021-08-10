@@ -108,14 +108,14 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
         let split = main.split_once("-");
         if split.is_none() {
             eprintln!("Invalid ticket id passed as main option.");
-            return;
+            std::process::exit(1);
         }
         project = split.unwrap().0.to_string();
         parent = Some(main.to_string());
     }
     if project.is_empty() {
         eprintln!("Cannot determine project. ");
-        return;
+        std::process::exit(1);
     }
     let summary = get_or_ask(
         &matches,
@@ -123,8 +123,8 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
         "Please enter the summary of the project: ",
     );
     if summary.is_none() {
-        println!("Summary is a required field.");
-        return;
+        eprintln!("Summary is a required field.");
+        std::process::exit(1);
     }
     let mut description = matches.value_of("description").unwrap_or("").to_string();
     if !matches.is_present("quiet") && description.is_empty() {
@@ -148,8 +148,8 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
         config::get_config("account_id".to_string())
     };
     if assignee.is_empty() {
-        println!("Please provide appropriate user email to continue.");
-        return;
+        eprintln!("Please provide appropriate user email to continue.");
+        std::process::exit(1);
     }
     let issuetype = get_or_ask(matches, "type", "Please enter type of issue: ");
     let labels = get_or_ask(
@@ -191,7 +191,8 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
     let json_node = payload.json();
     let created_api_response = api::post_call("issue".to_string(), json_node, 2);
     if created_api_response.is_err() {
-        eprintln!("Unable to create ticket. {:?}", created_api_response);
+        eprintln!("Unable to create ticket.");
+        std::process::exit(1);
     }
     let response = json::parse(&created_api_response.unwrap());
     if let Ok(response_object) = response {

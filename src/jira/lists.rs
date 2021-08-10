@@ -86,9 +86,8 @@ pub fn list_issues(matches: &ArgMatches) {
     let jql = form_jql(matches);
     let search_response = api::get_call_v3(format!("search?jql={}", jql));
     if search_response.is_err() {
-        println!("Error occured when searching tickets. ");
-        println!("{:?}", search_response);
-        return;
+        eprintln!("Error occured when searching tickets. ");
+        std::process::exit(1);
     }
     if matches.is_present("alias") {
         let alias_name = matches.value_of("alias").unwrap();
@@ -102,7 +101,7 @@ pub fn list_issues(matches: &ArgMatches) {
     let issues = &search_response.unwrap()["issues"];
     if !issues.is_array() {
         println!("No issues found for the filter.");
-        return;
+        std::process::exit(0);
     }
     let display: String = String::from(
         matches
@@ -128,7 +127,7 @@ pub fn list_issues(matches: &ArgMatches) {
     for header in headers.clone() {
         if display_options[header].is_null() {
             eprintln!("Unknown display option {} passed. ", header);
-            return;
+            std::process::exit(1);
         }
         display_header(&display_options[header]);
         total = total + display_options[header]["width"].as_usize().unwrap_or(0) + 1;
