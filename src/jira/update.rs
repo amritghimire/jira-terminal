@@ -19,7 +19,7 @@ fn get_object_by_name(list: &json::JsonValue, name: String) -> Option<json::Json
 fn get_object_lists_from_value(list: &json::JsonValue, value: String) -> Vec<json::JsonValue> {
     let mut selected_entries: Vec<json::JsonValue> = vec![];
     for name in value.split(',') {
-        let object = get_object_by_name(&list, config::get_alias_or(name.to_string()));
+        let object = get_object_by_name(list, config::get_alias_or(name.to_string()));
         if let Some(entry) = object {
             selected_entries.push(entry);
         }

@@ -118,7 +118,7 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
         std::process::exit(1);
     }
     let summary = get_or_ask(
-        &matches,
+        matches,
         "summary",
         "Please enter the summary of the project: ",
     );

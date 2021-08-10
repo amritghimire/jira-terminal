@@ -49,7 +49,7 @@ pub fn handle_update_matches(matches: &ArgMatches) {
 }
 
 pub fn handle_new_matches(matches: &ArgMatches) {
-    new_issue::handle_issue_creation(&matches);
+    new_issue::handle_issue_creation(matches);
 }
 
 pub fn handle_assign_matches(matches: &ArgMatches) {
