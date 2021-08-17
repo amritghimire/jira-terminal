@@ -50,8 +50,13 @@ script:
   # Require clippy to pass without warnings. 
   - cargo clippy -- -D warnings
   # Build the code.
-  - cargo build --release
-before_deploy: "./build-release jira-terminal ${TRAVIS_TAG}-${TRAVIS_OS_NAME}"
+  - cargo build 
+  - |-
+    case $TRAVIS_OS_NAME in 
+      windows) cargo build --release; cp target/release/jira-terminal.exe ./ ;;
+      *) ./build-release jira-terminal ${TRAVIS_TAG}-${TRAVIS_OS_NAME} ;;
+    esac
+  - ls
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
@@ -59,6 +64,7 @@ deploy:
   file: 
     - "jira-terminal-${TRAVIS_TAG}-${TRAVIS_OS_NAME}.*"
     - "jira-terminal"
+    - "jira-terminal.exe"
   skip_cleanup: true
   on:
     rust: stable
