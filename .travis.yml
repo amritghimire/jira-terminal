@@ -51,12 +51,12 @@ script:
   - cargo clippy -- -D warnings
   # Build the code.
   - cargo build 
-  - |-
+before_deploy: 
+- |-
     case $TRAVIS_OS_NAME in 
       windows) cargo build --release; cp target/release/jira-terminal.exe ./ ;;
       *) ./build-release jira-terminal ${TRAVIS_TAG}-${TRAVIS_OS_NAME} ;;
     esac
-  - ls
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
