@@ -38,7 +38,7 @@ pub fn subcommand() -> App<'static, 'static> {
                .short("d")
                .long("display")
                .long_help(" Comma separated list of fields to display.
-Possible options for fields are: 
+Possible options for fields are:
 key,resolution,priority,assignee,status,components,creator,reporter,issuetype,project,summary
 
 You can pass alias as option for display. You can save alias using alias subcommand for the application.
@@ -135,6 +135,20 @@ You can pass alias as option for display. You can save alias using alias subcomm
                .value_name("TEXT")
                .takes_value(true)
                )
+            .arg(Arg::with_name("count")
+               .help("Total number of issues to show. (Default is 50)")
+               .short("C")
+               .long("count")
+               .value_name("COUNT")
+               .takes_value(true)
+               )
+            .arg(Arg::with_name("offset")
+               .help("Offset to start the first item to return in a page of results. (Default is 0)")
+               .short("o")
+               .long("offset")
+               .value_name("OFFSET")
+               .takes_value(true)
+               )
             .arg(Arg::with_name("alias")
                .help("Save the applied options as an alias. You can use it with jql option later.")
                .short("A")
@@ -146,6 +160,6 @@ You can pass alias as option for display. You can save alias using alias subcomm
 assignee, component, epic, filter, label, main, priority, project, reporter, sprint, status, type.
 
 For example to fetch list of tickets in Backlog and In progress, you can use
-jira-terminal list -s Backlog -s 'In Progress' 
+jira-terminal list -s Backlog -s 'In Progress'
             ")
 }
