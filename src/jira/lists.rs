@@ -84,7 +84,22 @@ fn form_jql(matches: &ArgMatches) -> String {
 
 pub fn list_issues(matches: &ArgMatches) {
     let jql = form_jql(matches);
-    let search_response = api::get_call_v3(format!("search?jql={}", jql));
+    let offset_result = matches.value_of("offset").unwrap_or("0").parse::<u32>();
+    if offset_result.is_err() {
+        eprintln!("Invalid option passed to offset. ");
+        std::process::exit(1);
+    }
+    let offset = offset_result.unwrap();
+    let count_result = matches.value_of("count").unwrap_or("50").parse::<u32>();
+    if count_result.is_err() {
+        eprintln!("Invalid option passed to count. ");
+        std::process::exit(1);
+    }
+    let count = count_result.unwrap();
+    let search_response = api::get_call_v3(format!(
+        "search?maxResults={}&startAt={}&jql={}",
+        count, offset, jql
+    ));
     if search_response.is_err() {
         eprintln!("Error occured when searching tickets. ");
         std::process::exit(1);

@@ -59,7 +59,7 @@ jira-terminal help autocompletion
 ```
 
 ```
-JIRA Terminal 1.2.0
+JIRA Terminal 1.5.0
 Amrit Ghimire <oss@amritghimire.com>
 This is a command line application that can be used as a personal productivity tool for interacting with JIRA
 
@@ -86,6 +86,7 @@ SUBCOMMANDS:
 
 ### List of Tickets
 ```
+
 jira-terminal-list 
 List the issues from JIRA.
 
@@ -101,8 +102,9 @@ OPTIONS:
     -A, --alias <ALIAS>               Save the applied options as an alias. You can use it with jql option later.
     -a, --assignee <ASIGNEE>...       Assignee username or email to filter with.
     -c, --component <COMPONENT>...    Component name or ID to filter with.
+    -C, --count <COUNT>               Total number of issues to show. (Default is 50)
     -d, --display <DISPLAY>            Comma separated list of fields to display.
-                                      Possible options for fields are: 
+                                      Possible options for fields are:
                                       key,resolution,priority,assignee,status,components,creator,reporter,issuetype,project,summary
                                       
                                       You can pass alias as option for display. You can save alias using alias
@@ -115,6 +117,7 @@ OPTIONS:
     -f, --filter <FILTER>...          Filter name or filter id that you saved in JIRA.
     -j, --jql <JQL>                   JQL Query or alias to JQL query to filter with.
     -l, --label <LABEL>...            Search for issues with a label or list of labels.
+    -o, --offset <OFFSET>             Offset to start the first item to return in a page of results. (Default is 0)
     -m, --main <PARENT>...            Search for subtask of a particular issue.
     -P, --priority <PRIORITY>...      Search for issues with a particular priority.
     -p, --project <PROJECT>...        Project Code to filter with.
