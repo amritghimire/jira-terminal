@@ -6,6 +6,13 @@ This application can be used for personal usage to manage jira from terminal.
 
 This application can be used in multiple platform.
 
+### MacOS
+This package is available in brew as `jira-terminal`. You can install it with following command:
+```
+brew tap amritghimire/jira-terminal 
+brew install jira-terminal
+```
+
 ### Arch Linux
 This package is availabe in aur repository as [jira-terminal-bin](https://aur.archlinux.org/packages/jira-terminal-bin/)
 
