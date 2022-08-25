@@ -32,7 +32,7 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     let update_key = config::get_alias_or(key);
     let fields_response = api::get_call_v2(format!("issue/{}/editmeta", ticket));
     if fields_response.is_err() {
-        eprintln!("Error occured while updating the ticket.");
+        eprintln!("Error occurred while updating the ticket.");
         std::process::exit(1);
     }
     let fields = &fields_response.unwrap()["fields"][update_key.clone()];
@@ -70,7 +70,7 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     };
     let update_response = api::put_call(format!("issue/{}", ticket), payload, 3);
     if update_response.is_err() {
-        eprintln!("Error occured while updating the ticket");
+        eprintln!("Error occurred while updating the ticket");
         std::process::exit(1);
     }
     let response = update_response.unwrap();

@@ -9,7 +9,7 @@ pub fn assign_task(ticket: String, user: String) {
     };
     let update_response = api::put_call(format!("issue/{}/assignee", ticket), payload, 3);
     if update_response.is_err() {
-        eprintln!("Error occured While assigning the ticket.");
+        eprintln!("Error occurred While assigning the ticket.");
         std::process::exit(1);
     }
     let response = update_response.unwrap();

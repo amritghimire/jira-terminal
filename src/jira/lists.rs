@@ -101,7 +101,7 @@ pub fn list_issues(matches: &ArgMatches) {
         count, offset, jql
     ));
     if search_response.is_err() {
-        eprintln!("Error occured when searching tickets. ");
+        eprintln!("Error occurred when searching tickets. ");
         std::process::exit(1);
     }
     if matches.is_present("alias") {

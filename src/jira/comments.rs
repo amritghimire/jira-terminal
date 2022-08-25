@@ -94,7 +94,7 @@ pub fn add_new_comment(ticket: String, matches: &ArgMatches) {
     };
     let update_response = api::post_call(format!("issue/{}/comment", ticket), payload, 2);
     if update_response.is_err() {
-        eprintln!("Error occured while adding comment.");
+        eprintln!("Error occurred while adding comment.");
         std::process::exit(1);
     }
     let response = json::parse(&update_response.unwrap());
