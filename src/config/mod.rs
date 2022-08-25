@@ -54,7 +54,7 @@ fn create_config() {
     io::stdin()
         .read_line(&mut email)
         .expect("Failed to read input.");
-    println!("Please create an API Token from https://id.atlassian.com/manage-profile/security/api-tokens. If your JIRA setup doesnot have api tokens plugin, you can enter the password too. ");
+    println!("Please create an API Token from https://id.atlassian.com/manage-profile/security/api-tokens. If your JIRA setup does not have api tokens plugin, you can enter the password too. ");
     println!("Once created, enter your API Token: (The characters will not be visible in screen.Press enter after you entered the password or token) ");
     let token = rpassword::read_password().unwrap();
     let user_password = format!("{}:{}", email.trim(), token.trim());
@@ -129,7 +129,7 @@ pub fn parse_config() -> json::JsonValue {
     json::parse(&contents).unwrap()
 }
 
-/// Get the configuration for specified key. If the key doesnot exists, empty string is returned.
+/// Get the configuration for specified key. If the key does not exist, empty string is returned.
 ///
 /// # Arguments:
 /// * config - Configuration key.
@@ -265,7 +265,7 @@ pub fn get_transitions(project_code: String) -> json::JsonValue {
     config_value.clone()
 }
 
-/// Check if the transiton exists for provided transiton code in config file already.
+/// Check if the transition exists for provided transition code in config file already.
 ///
 /// # Arguments
 ///
@@ -284,7 +284,7 @@ pub fn transition_exists(project_code: String, transition_name: String) -> bool 
 
 /// Ensure the config exists.
 /// It will first check the config file exists.
-/// If it doesnot, it will ask the user to create one.
+/// If it does not, it will ask the user to create one.
 pub fn ensure_config() {
     let config_exists = check_config_exists();
     if !config_exists {

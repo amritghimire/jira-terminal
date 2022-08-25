@@ -3,7 +3,7 @@ use crate::jira::api;
 pub fn display_all_fields(ticket: String) {
     let fields_response = api::get_call_v2(format!("issue/{}/editmeta", ticket));
     if fields_response.is_err() {
-        eprintln!("Error occured in API Call: {:?}", fields_response);
+        eprintln!("Error occurred in API Call: {:?}", fields_response);
         std::process::exit(1);
     }
     let fields = &fields_response.unwrap()["fields"];

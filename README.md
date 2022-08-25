@@ -14,7 +14,7 @@ brew install jira-terminal
 ```
 
 ### Arch Linux
-This package is availabe in aur repository as [jira-terminal-bin](https://aur.archlinux.org/packages/jira-terminal-bin/)
+This package is available in aur repository as [jira-terminal-bin](https://aur.archlinux.org/packages/jira-terminal-bin/)
 
 ### Debian/Ubuntu
 On debian based system, the deb file is available in [releases](https://github.com/amritghimire/jira-terminal/releases). You can download latest release from there. Please make sure libc is installed in your system.
@@ -107,7 +107,7 @@ FLAGS:
 
 OPTIONS:
     -A, --alias <ALIAS>               Save the applied options as an alias. You can use it with jql option later.
-    -a, --assignee <ASIGNEE>...       Assignee username or email to filter with.
+    -a, --assignee <ASSIGNEE>...       Assignee username or email to filter with.
     -c, --component <COMPONENT>...    Component name or ID to filter with.
     -C, --count <COUNT>               Total number of issues to show. (Default is 50)
     -d, --display <DISPLAY>            Comma separated list of fields to display.
@@ -266,7 +266,7 @@ USAGE:
 
 FLAGS:
     -h, --help       Prints help information
-    -M, --mininal    Only summary and description will be asked if not available.
+    -M, --minimal    Only summary and description will be asked if not available.
     -q, --quiet      Do not ask for missing options.
     -V, --version    Prints version information
 
@@ -278,7 +278,7 @@ OPTIONS:
                                        subcommand to check the list of custom fields available. 
     -d, --description <description>    Description of ticket
     -l, --labels <labels>              Comma separated list of labels.
-    -m, --main <main>                  Main tiecket to create the sub-ticket.
+    -m, --main <main>                  Main ticket to create the sub-ticket.
     -p, --priority <priority>          Priority Of the ticket.
     -P, --project <project>            Project Key to create the ticket.
     -s, --summary <summary>            Summary of ticket
@@ -322,4 +322,4 @@ OPTIONS:
 ```
 
 ## Notes
-- The credentials and other configuration are stored in a file `~/.jira_terminal_configuration.json`. The base64 encoded version of credentials are only written tin the configuration file.
+- The credentials and other configuration are stored in a file `~/.jira_terminal_configuration.json`. The base64 encoded version of credentials are only written in the configuration file.

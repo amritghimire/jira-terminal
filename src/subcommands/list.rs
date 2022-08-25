@@ -15,7 +15,7 @@ pub fn subcommand() -> App<'static, 'static> {
                .help("Assignee username or email to filter with.")
                .short("a")
                .long("assignee")
-               .value_name("ASIGNEE")
+               .value_name("ASSIGNEE")
                .takes_value(true)
                .multiple(true)
                )
