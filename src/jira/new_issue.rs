@@ -56,7 +56,7 @@ impl CreationPayload {
         if let Some(custom) = self.custom {
             let custom_fields = custom.split(',');
             for custom_field in custom_fields {
-                if let Some((key, value)) = custom_field.split_once(":") {
+                if let Some((key, value)) = custom_field.split_once(':') {
                     payload[config::get_alias_or(key.to_string())] =
                         config::get_alias_or(value.to_string()).into();
                 }
@@ -105,7 +105,7 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
     let mut parent: Option<String> = None;
     if matches.is_present("main") {
         let main = matches.value_of("main").unwrap();
-        let split = main.split_once("-");
+        let split = main.split_once('-');
         if split.is_none() {
             eprintln!("Invalid ticket id passed as main option.");
             std::process::exit(1);
