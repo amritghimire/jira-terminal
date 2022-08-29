@@ -7,7 +7,7 @@ mod cache;
 
 /// Capitalize first letter of a word.
 pub fn str_cap(s: String) -> String {
-    format!("{}{}", (&s[..1].to_string()).to_uppercase(), &s[1..])
+    format!("{}{}", (&s[..1]).to_uppercase(), &s[1..])
 }
 
 /// Get the config file name regardless of platform.
@@ -23,7 +23,7 @@ pub fn str_cap(s: String) -> String {
 fn get_config_file_name() -> String {
     let config_file_name: String = String::from(".jira_terminal_configuration.json");
     match home::home_dir() {
-        Some(path) => return format!("{}/{}", path.display(), config_file_name),
+        Some(path) => format!("{}/{}", path.display(), config_file_name),
         None => config_file_name,
     }
 }
