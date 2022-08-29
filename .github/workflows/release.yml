@@ -20,7 +20,7 @@ jobs:
             uname: osx
     steps:
       - uses: actions/checkout@v2
-      - run: ./build-release jira-terminal ${{ github.ref }}-${{ matrix.uname }}
+      - run: ./build-release jira-terminal ${{ github.ref_name }}-${{ matrix.uname }}
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "jira-terminal,jira-terminal-*.*"
