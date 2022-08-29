@@ -142,7 +142,7 @@ dependencies = [
 
 [[package]]
 name = "jira-terminal"
-version = "1.5.0"
+version = "1.6.0"
 dependencies = [
  "base64",
  "chrono",
