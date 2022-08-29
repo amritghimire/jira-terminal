@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+jobs:
+  build:
+    runs-on: '${{ matrix.os }}'
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        os: [ ubuntu-20.04, macos-latest ]
+        include:
+          - os: ubuntu-20.04
+            uname: linux
+          - os: macos-latest
+            uname: osx
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./build-release jira-terminal ${{ github.ref }}-${{ matrix.uname }}
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "jira-terminal,jira-terminal-*.*"
+          allowUpdates: true
+          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+          draft: true
