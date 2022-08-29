@@ -25,5 +25,4 @@ jobs:
         with:
           artifacts: "jira-terminal,jira-terminal-*.*"
           allowUpdates: true
-          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
           draft: true
