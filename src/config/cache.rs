@@ -16,7 +16,7 @@ use crate::api;
 pub fn get_username(configuration: &json::JsonValue) -> String {
     let url = format!(
         "user/search?query={}",
-        configuration["email"].as_str().unwrap().to_string()
+        configuration["email"].as_str().unwrap()
     );
     let api_request = api::request::ApiRequest {
         url,
