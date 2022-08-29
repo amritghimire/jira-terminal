@@ -81,11 +81,13 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - uses: actions/checkout@v2
-      - name: Build-musl
-        uses: gmiam/rust-musl-action@master
+      - uses: actions-rs/toolchain@v1
         with:
-          args: cargo build --target $BUILD_TARGET --release
-      - uses: actions/upload-artifact@v2
+          profile: minimal
+          toolchain: stable
+          override: true
+      - uses: Swatinem/rust-cache@v1
+      - uses: actions-rs/cargo@v1
         with:
-          name: ${{ env.BINARY_NAME }}
-          path: target/x86_64-unknown-linux-musl/release/${{ env.BINARY_NAME }}*
+          command: build
+          args: --release
