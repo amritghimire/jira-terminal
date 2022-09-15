@@ -66,7 +66,7 @@ jira-terminal help autocompletion
 ```
 
 ```
-JIRA Terminal 1.5.0
+JIRA Terminal 2.0.0
 Amrit Ghimire <oss@amritghimire.com>
 This is a command line application that can be used as a personal productivity tool for interacting with JIRA
 
@@ -102,6 +102,7 @@ USAGE:
 
 FLAGS:
     -h, --help       Prints help information
+    -J, --json       JSON response
     -M, --me         Issues assigned to you.
     -V, --version    Prints version information
 

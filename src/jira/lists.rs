@@ -24,6 +24,22 @@ fn display_content(option: &json::JsonValue, value: &json::JsonValue) {
     print!("{value:width$}|", value = content, width = width)
 }
 
+fn return_json(option: &json::JsonValue, value: &json::JsonValue) -> json::JsonValue {
+    if value.is_array() {
+        let mut contents = json::JsonValue::new_array();
+        let field = option["field"].as_str().unwrap_or("name");
+        for entry in value.members() {
+            let _ = contents.push(String::from(entry[field].as_str().unwrap_or("-")));
+        }
+        contents
+    } else if value.is_object() {
+        let field = option["field"].as_str().unwrap_or("name");
+        value[field].clone()
+    } else {
+        value.clone()
+    }
+}
+
 fn display_header(option: &json::JsonValue) {
     print!(
         "{title:width$}|",
@@ -83,6 +99,7 @@ fn form_jql(matches: &ArgMatches) -> String {
 }
 
 pub fn list_issues(matches: &ArgMatches) {
+    let show_json = matches.is_present("json");
     let jql = form_jql(matches);
     let offset_result = matches.value_of("offset").unwrap_or("0").parse::<u32>();
     if offset_result.is_err() {
@@ -114,10 +131,7 @@ pub fn list_issues(matches: &ArgMatches) {
         );
     }
     let issues = &search_response.unwrap()["issues"];
-    if !issues.is_array() {
-        println!("No issues found for the filter.");
-        std::process::exit(0);
-    }
+
     let display: String = String::from(
         matches
             .value_of("display")
@@ -138,6 +152,28 @@ pub fn list_issues(matches: &ArgMatches) {
     };
     let headers_to_display = display;
     let headers = headers_to_display.trim().split(',');
+
+    if show_json {
+        let mut response = json::JsonValue::new_array();
+        for issue in issues.members() {
+            let mut data = json::JsonValue::new_object();
+            for header in headers.clone() {
+                if header == "key" {
+                    data[header] = return_json(&display_options[header], &issue[header]);
+                } else {
+                    data[header] = return_json(&display_options[header], &issue["fields"][header]);
+                }
+            }
+            let _ = response.push(data);
+        }
+        println!("{}", response.pretty(4));
+        return;
+    }
+
+    if !issues.is_array() {
+        println!("No issues found for the filter.");
+        std::process::exit(0);
+    }
     let mut total = 0;
     for header in headers.clone() {
         if display_options[header].is_null() {
