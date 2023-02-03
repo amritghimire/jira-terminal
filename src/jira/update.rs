@@ -30,7 +30,7 @@ fn get_object_lists_from_value(list: &json::JsonValue, value: String) -> Vec<jso
 pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     let value = config::get_alias_or(entry);
     let update_key = config::get_alias_or(key);
-    let fields_response = api::get_call_v2(format!("issue/{}/editmeta", ticket));
+    let fields_response = api::get_call_v2(format!("issue/{ticket}/editmeta"));
     if fields_response.is_err() {
         eprintln!("Error occurred while updating the ticket.");
         std::process::exit(1);
@@ -68,11 +68,11 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     let payload = json::object! {
         "fields": update_json
     };
-    let update_response = api::put_call(format!("issue/{}", ticket), payload, 3);
+    let update_response = api::put_call(format!("issue/{ticket}"), payload, 3);
     if update_response.is_err() {
         eprintln!("Error occurred while updating the ticket");
         std::process::exit(1);
     }
     let response = update_response.unwrap();
-    println!("Successfully Updated {}", response);
+    println!("Successfully Updated {response}");
 }

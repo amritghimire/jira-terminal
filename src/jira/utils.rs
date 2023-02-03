@@ -1,13 +1,10 @@
 use crate::jira::api;
 
 pub fn get_account_id(query: String) -> String {
-    let url = format!("user/search?query={}", query);
+    let url = format!("user/search?query={query}");
     let api_response = api::get_call_v3(url);
     if api_response.is_err() {
-        eprintln!(
-            "Cannot search for provided assignee user. {:?}",
-            api_response
-        );
+        eprintln!("Cannot search for provided assignee user. {api_response:?}");
         return String::new();
     }
     let account_response = &api_response.unwrap()[0];
@@ -22,10 +19,10 @@ pub fn get_account_id(query: String) -> String {
 
 pub fn get_issuetype_id(project: String, entry: Option<String>) -> Option<String> {
     let name = entry.as_ref()?;
-    let url = format!("issue/createmeta?projectKeys={}", project);
+    let url = format!("issue/createmeta?projectKeys={project}");
     let api_response = api::get_call_v3(url);
     if api_response.is_err() {
-        eprintln!("Error while verifying issue type: {:?}", api_response);
+        eprintln!("Error while verifying issue type: {api_response:?}");
         return None;
     }
     let project_list = &api_response.unwrap()["projects"];

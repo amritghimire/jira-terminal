@@ -21,7 +21,7 @@ fn display_content(option: &json::JsonValue, value: &json::JsonValue) {
     }
     let width = option["width"].as_usize().unwrap_or(0);
     content.truncate(width);
-    print!("{value:width$}|", value = content, width = width)
+    print!("{content:width$}|")
 }
 
 fn return_json(option: &json::JsonValue, value: &json::JsonValue) -> json::JsonValue {
@@ -114,8 +114,7 @@ pub fn list_issues(matches: &ArgMatches) {
     }
     let count = count_result.unwrap();
     let search_response = api::get_call_v3(format!(
-        "search?maxResults={}&startAt={}&jql={}",
-        count, offset, jql
+        "search?maxResults={count}&startAt={offset}&jql={jql}"
     ));
     if search_response.is_err() {
         eprintln!("Error occurred when searching tickets. ");
@@ -124,11 +123,8 @@ pub fn list_issues(matches: &ArgMatches) {
     if matches.is_present("alias") {
         let alias_name = matches.value_of("alias").unwrap();
         config::set_alias(alias_name.to_string(), jql);
-        println!("Current filter is now set with value {}", alias_name);
-        println!(
-            "You can use jira-terminal list --jql \"{}\" to reuse this filter.",
-            alias_name
-        );
+        println!("Current filter is now set with value {alias_name}");
+        println!("You can use jira-terminal list --jql \"{alias_name}\" to reuse this filter.");
     }
     let issues = &search_response.unwrap()["issues"];
 
@@ -177,7 +173,7 @@ pub fn list_issues(matches: &ArgMatches) {
     let mut total = 0;
     for header in headers.clone() {
         if display_options[header].is_null() {
-            eprintln!("Unknown display option {} passed. ", header);
+            eprintln!("Unknown display option {header} passed. ");
             std::process::exit(1);
         }
         display_header(&display_options[header]);

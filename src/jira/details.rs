@@ -60,7 +60,7 @@ pub fn show_details(ticket: String, fields: String) {
     } else {
         config::get_alias_or(fields)
     };
-    let details_response = api::get_call_v2(format!("issue/{}", ticket));
+    let details_response = api::get_call_v2(format!("issue/{ticket}"));
     if details_response.is_err() {
         eprintln!("Error occurred when searching tickets. ");
         std::process::exit(1);

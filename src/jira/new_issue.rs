@@ -90,7 +90,7 @@ fn get_or_ask(matches: &ArgMatches, key: &str, message: &str) -> Option<String> 
         return None;
     }
     let mut entry = String::new();
-    println!("{} (Press enter to leave it to default.)", message);
+    println!("{message} (Press enter to leave it to default.)");
     stdin()
         .read_line(&mut entry)
         .expect("Failed to read input.");
@@ -136,7 +136,7 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
             if n == 0 {
                 break;
             }
-            description = format!("{}\n{}", description, line);
+            description = format!("{description}\n{line}");
 
             line = String::new();
         }
@@ -197,6 +197,6 @@ pub fn handle_issue_creation(matches: &ArgMatches) {
     let response = json::parse(&created_api_response.unwrap());
     if let Ok(response_object) = response {
         let key = &response_object["key"];
-        println!("New Ticket KEY: {} Created.", key);
+        println!("New Ticket KEY: {key} Created.");
     }
 }

@@ -30,7 +30,7 @@ pub fn handle_matches(mut app: App) {
             } else if aliases.is_present("add") {
                 let value = aliases.value_of("add").unwrap();
                 config::set_alias(alias_name.to_string(), value.to_string());
-                println!("Added new config for {} with value: {}", alias_name, value);
+                println!("Added new config for {alias_name} with value: {value}");
             }
         }
     } else if let Some(details) = matches.subcommand_matches("detail") {

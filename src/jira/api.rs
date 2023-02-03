@@ -1,5 +1,6 @@
 use crate::api;
 use crate::config;
+use std::error::Error;
 
 /// Call the GET API Service for provided endpoint.
 /// This is a wrapper on existing api service which will add the namespace and authentication from
@@ -9,7 +10,7 @@ use crate::config;
 ///
 /// * endpoint - Endpoint to call the api. Example: user/search
 /// * version - Rest API Version to call. Values will be 2/3 as of now.
-fn get_call(endpoint: String, version: u8) -> Result<json::JsonValue, ureq::Error> {
+fn get_call(endpoint: String, version: u8) -> Result<json::JsonValue, Box<dyn Error>> {
     let api_request = api::request::ApiRequest {
         url: endpoint,
         username: config::get_config("email".to_string()),
@@ -33,7 +34,7 @@ pub fn post_call(
     endpoint: String,
     json_value: json::JsonValue,
     version: u8,
-) -> Result<String, ureq::Error> {
+) -> Result<String, Box<dyn Error>> {
     let api_request = api::request::ApiRequest {
         url: endpoint,
         username: config::get_config("email".to_string()),
@@ -57,7 +58,7 @@ pub fn put_call(
     endpoint: String,
     json_value: json::JsonValue,
     version: u8,
-) -> Result<String, ureq::Error> {
+) -> Result<String, Box<dyn Error>> {
     let api_request = api::request::ApiRequest {
         url: endpoint,
         username: config::get_config("email".to_string()),
@@ -74,7 +75,7 @@ pub fn put_call(
 /// # Arguments
 ///
 /// * endpoint - Endpoint to call the api. Example: user/search
-pub fn get_call_v2(endpoint: String) -> Result<json::JsonValue, ureq::Error> {
+pub fn get_call_v2(endpoint: String) -> Result<json::JsonValue, Box<dyn Error>> {
     get_call(endpoint, 2)
 }
 
@@ -84,6 +85,6 @@ pub fn get_call_v2(endpoint: String) -> Result<json::JsonValue, ureq::Error> {
 ///
 /// * endpoint - Endpoint to call the api. Example: user/search
 
-pub fn get_call_v3(endpoint: String) -> Result<json::JsonValue, ureq::Error> {
+pub fn get_call_v3(endpoint: String) -> Result<json::JsonValue, Box<dyn Error>> {
     get_call(endpoint, 3)
 }
