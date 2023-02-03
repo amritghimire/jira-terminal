@@ -61,6 +61,14 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
     } else if fields["schema"]["type"] == "array" {
         let values: Vec<&str> = value.split(',').collect();
         update_json[update_key] = values.into();
+    } else if fields["schema"]["type"] == "number" {
+        match value.parse::<f64>() {
+            Ok(number) => update_json[update_key] = number.into(),
+            Err(_) => {
+                eprintln!("Cannot parse value as a number.");
+                std::process::exit(1);
+            }
+        }
     } else {
         update_json[update_key] = value.into();
     }
