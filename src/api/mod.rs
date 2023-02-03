@@ -1,58 +1,60 @@
+use std::error::Error;
+
 pub mod request;
 
 fn handle_response_error_json(
     response: Result<ureq::Response, ureq::Error>,
-) -> Result<json::JsonValue, ureq::Error> {
+) -> Result<json::JsonValue, Box<dyn Error>> {
     match response {
         Ok(r) => {
             let response_string = r.into_string()?;
             Ok(json::parse(&response_string).unwrap())
         }
         Err(ureq::Error::Status(code, r)) => {
-            eprintln!("JIRA API returned with status code {}. ", code);
+            eprintln!("JIRA API returned with status code {code}. ");
             let response_string = r.into_string()?;
             match json::parse(&response_string) {
                 Ok(j) => {
                     eprintln!("{}", json::stringify_pretty(j, 4));
                 }
                 Err(_) => {
-                    eprintln!("{}", response_string);
+                    eprintln!("{response_string}");
                 }
             }
-            Err(ureq::Error::Status(
+            Err(Box::new(ureq::Error::Status(
                 code,
                 ureq::Response::new(code, "API", "API Error").unwrap(),
-            ))
+            )))
         }
-        Err(e) => Err(e),
+        Err(e) => Err(Box::new(e)),
     }
 }
 
 fn handle_response_error(
     response: Result<ureq::Response, ureq::Error>,
-) -> Result<String, ureq::Error> {
+) -> Result<String, Box<dyn Error>> {
     match response {
         Ok(r) => {
             let response_string = r.into_string()?;
             Ok(response_string)
         }
         Err(ureq::Error::Status(code, r)) => {
-            eprintln!("JIRA API returned with status code {}. ", code);
+            eprintln!("JIRA API returned with status code {code}. ");
             let response_string = r.into_string()?;
             match json::parse(&response_string) {
                 Ok(j) => {
                     eprintln!("{}", json::stringify_pretty(j, 4));
                 }
                 Err(_) => {
-                    eprintln!("{}", response_string);
+                    eprintln!("{response_string}");
                 }
             }
-            Err(ureq::Error::Status(
+            Err(Box::new(ureq::Error::Status(
                 code,
                 ureq::Response::new(code, "API", "API Error").unwrap(),
-            ))
+            )))
         }
-        Err(e) => Err(e),
+        Err(e) => Err(Box::new(e)),
     }
 }
 
@@ -74,7 +76,7 @@ fn handle_response_error(
 ///  };
 /// assert!(true, api_request(api_request).is_ok());
 /// ```
-pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, ureq::Error> {
+pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url
@@ -102,7 +104,7 @@ pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, ureq::Er
 ///  };
 /// assert!(true, api_request(api_request).is_ok());
 /// ```
-pub fn post(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
+pub fn post(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url
@@ -133,7 +135,7 @@ pub fn post(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
 ///  };
 /// assert!(true, api_request(api_request).is_ok());
 /// ```
-pub fn put(api_request: request::ApiRequest) -> Result<String, ureq::Error> {
+pub fn put(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
         api_request.namespace, api_request.version, api_request.url

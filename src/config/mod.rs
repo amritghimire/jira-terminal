@@ -7,7 +7,7 @@ mod cache;
 
 /// Capitalize first letter of a word.
 pub fn str_cap(s: String) -> String {
-    format!("{}{}", (&s[..1]).to_uppercase(), &s[1..])
+    format!("{}{}", (s[..1]).to_uppercase(), &s[1..])
 }
 
 /// Get the config file name regardless of platform.

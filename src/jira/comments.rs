@@ -14,13 +14,13 @@ fn get_display_name_for_user(account_id: String) -> String {
     if !cached_name.is_empty() {
         return cached_name.as_str().unwrap().to_string();
     }
-    let details_response = api::get_call_v2(format!("user/?accountId={}", account_id));
+    let details_response = api::get_call_v2(format!("user/?accountId={account_id}"));
     if details_response.is_err() {
-        return format!("[{}]", account_id);
+        return format!("[{account_id}]");
     }
     let display_name = &details_response.unwrap()["displayName"];
     if display_name.is_empty() {
-        return format!("[{}]", account_id);
+        return format!("[{account_id}]");
     }
     let mut accounts = config_object["accounts"].clone();
     accounts[account_id] = display_name.as_str().unwrap().to_string().into();
@@ -42,7 +42,7 @@ fn display_comment_object(comment: &json::JsonValue, re: &Regex) {
     let result = re.replace_all(comment_body, |caps: &Captures| {
         format!("@({}) ", get_display_name_for_user(caps[1].to_string()))
     });
-    println!("{}", result);
+    println!("{result}");
     println!("\n");
 }
 
@@ -56,7 +56,7 @@ fn change_mentioned_users(body: String) -> String {
 
 pub fn display_comment_list(comments: &json::JsonValue) {
     let total_comment = &comments["total"];
-    println!("Total {} comment found. ", total_comment);
+    println!("Total {total_comment} comment found. ");
     println!();
     let re = Regex::new(r"\[~accountid:([^\]]*)\]").unwrap();
     for comment in comments["comments"].members() {
@@ -65,7 +65,7 @@ pub fn display_comment_list(comments: &json::JsonValue) {
 }
 
 pub fn get_all_comments(ticket: String) {
-    let comments_response = api::get_call_v2(format!("issue/{}/comment", ticket));
+    let comments_response = api::get_call_v2(format!("issue/{ticket}/comment"));
     if comments_response.is_err() {
         eprintln!("Cannot fetch the comments.");
         std::process::exit(1);
@@ -84,7 +84,7 @@ pub fn add_new_comment(ticket: String, matches: &ArgMatches) {
             if n == 0 {
                 break;
             }
-            body = format!("{}\n{}", body, line);
+            body = format!("{body}\n{line}");
 
             line = String::new();
         }
@@ -92,7 +92,7 @@ pub fn add_new_comment(ticket: String, matches: &ArgMatches) {
     let payload = json::object! {
         "body": change_mentioned_users(body)
     };
-    let update_response = api::post_call(format!("issue/{}/comment", ticket), payload, 2);
+    let update_response = api::post_call(format!("issue/{ticket}/comment"), payload, 2);
     if update_response.is_err() {
         eprintln!("Error occurred while adding comment.");
         std::process::exit(1);
