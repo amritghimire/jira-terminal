@@ -54,6 +54,9 @@ pub fn update_jira_ticket(ticket: String, key: String, entry: String) {
         if fields["schema"]["type"] == "array" {
             let update_json_value = get_object_lists_from_value(&fields["allowedValues"], value);
             update_json[update_key] = update_json_value.into();
+        } else if fields["schema"]["type"] == "option" {
+            let custom = json::object! {"value": value };
+            update_json[update_key] = custom.into();
         } else {
             let update_json_value = get_object_by_name(&fields["allowedValues"], value);
             update_json[update_key] = update_json_value.into();
