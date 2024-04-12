@@ -3,7 +3,7 @@ use crate::jira::api;
 use crate::jira::comments;
 
 fn show_detail_field(value: &json::JsonValue, field: String) {
-    let hide_keys = vec![
+    let hide_keys = [
         "key".to_string(),
         "summary".to_string(),
         "description".to_string(),
