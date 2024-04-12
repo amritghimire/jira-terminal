@@ -11,6 +11,12 @@ keywords = ["jira","terminal","command-line"]
 license = "AGPL-3.0-only"
 categories = ["command-line-utilities"]
 
+[package.metadata.wix]
+upgrade-guid = "A8ACB116-285E-4707-B21D-F7BEB7801849"
+path-guid = "9FB820A6-7BB9-4E7A-AC62-0F43AA2B7171"
+license = false
+eula = false
+
 [dependencies]
 home = "0.5.3"
 json = "0.12.4"
@@ -20,3 +26,27 @@ clap = "2.33.3"
 chrono = "0.4.19"
 regex = "1.5.5"
 rpassword = "5.0.1"
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+# Config for 'cargo dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.13.0"
+# CI backends to support
+ci = ["github"]
+# The installers to generate for each app
+installers = ["shell", "powershell", "homebrew", "msi"]
+# A GitHub repo to push Homebrew formulas to
+tap = "amritghimire/homebrew-jira-terminal"
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-unknown-linux-musl", "x86_64-pc-windows-msvc"]
+# Publish jobs to run in CI
+publish-jobs = ["homebrew"]
+# Publish jobs to run in CI
+pr-run-mode = "plan"
+# Whether to install an updater program
+install-updater = true
