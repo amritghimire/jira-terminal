@@ -1,0 +1,6 @@
+{
+  "build": {
+    "path_prefix": "jira-terminal"
+  }
+}
+
