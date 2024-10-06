@@ -27,10 +27,11 @@ use clap::App;
 pub mod api;
 pub mod config;
 pub mod jira;
+pub mod prelude;
 pub mod subcommands;
 
-fn main() {
-    config::ensure_config();
+fn main() -> prelude::Result<()> {
+    config::ensure_config()?;
     let app = App::new("JIRA Terminal")
         .version(crate_version!())
         .author("Amrit Ghimire <oss@amritghimire.com>")
@@ -45,6 +46,6 @@ fn main() {
         .subcommand(subcommands::update::subcommand())
         .subcommand(subcommands::autocompletion::subcommand())
         .subcommand(subcommands::new_subcommand::subcommand());
-
     subcommands::handle_matches(app);
+    Ok(())
 }
