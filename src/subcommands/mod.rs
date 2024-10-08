@@ -4,6 +4,7 @@ pub mod autocompletion;
 pub mod comments;
 pub mod detail;
 pub mod fields;
+pub mod logout;
 pub mod list;
 pub mod new_subcommand;
 pub mod transition;
@@ -37,6 +38,8 @@ pub fn handle_matches(mut app: App) {
         jira::handle_detail_matches(details);
     } else if let Some(fields) = matches.subcommand_matches("fields") {
         jira::handle_fields_matches(fields);
+    } else if let Some(fields) = matches.subcommand_matches("logout") {
+        jira::handle_logout(fields);
     } else if let Some(updates) = matches.subcommand_matches("update") {
         jira::handle_update_matches(updates);
     } else if let Some(new_matches) = matches.subcommand_matches("new") {

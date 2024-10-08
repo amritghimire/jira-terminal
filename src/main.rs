@@ -44,7 +44,8 @@ fn main() {
         .subcommand(subcommands::comments::subcommand())
         .subcommand(subcommands::update::subcommand())
         .subcommand(subcommands::autocompletion::subcommand())
-        .subcommand(subcommands::new_subcommand::subcommand());
+        .subcommand(subcommands::new_subcommand::subcommand())
+        .subcommand(subcommands::logout::subcommand());
 
     subcommands::handle_matches(app);
 }
