@@ -56,7 +56,7 @@ fn get_transitions(ticket: String) -> Option<json::JsonValue> {
 ///
 /// * `ticket` - JIRA Ticket ID
 /// * `transition_name` - Case insensitive name for transition. You could also pass alias for
-/// transition name.
+///   transition name.
 ///
 /// # Example
 /// ```
