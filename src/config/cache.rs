@@ -27,8 +27,8 @@ pub fn get_username(configuration: &json::JsonValue) -> Result<String> {
         version: 3,
     };
     let response = api::get(api_request).unwrap();
-    match response[0]["accountId"].as_str(){
+    match response[0]["accountId"].as_str() {
         Some(acc_id) => Ok(String::from(acc_id)),
-        None => Err("Authentication Failed".into())
+        None => Err("Authentication Failed".into()),
     }
 }
