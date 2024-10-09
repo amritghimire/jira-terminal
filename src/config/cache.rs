@@ -1,4 +1,4 @@
-use crate::api;
+use crate::{api, prelude::Result};
 
 /// Get the user account id from email provided by user while config creation.
 /// For most of the API Call, user email will not be valid due to recent changes in GDPR policies.
@@ -13,7 +13,7 @@ use crate::api;
 /// ```
 /// let account_id = get_username(&configuration);
 /// ```
-pub fn get_username(configuration: &json::JsonValue) -> String {
+pub fn get_username(configuration: &json::JsonValue) -> Result<String> {
     let url = format!(
         "user/search?query={}",
         configuration["email"].as_str().unwrap()
@@ -27,6 +27,8 @@ pub fn get_username(configuration: &json::JsonValue) -> String {
         version: 3,
     };
     let response = api::get(api_request).unwrap();
-    let account_id = String::from(response[0]["accountId"].as_str().unwrap());
-    account_id
+    match response[0]["accountId"].as_str() {
+        Some(acc_id) => Ok(String::from(acc_id)),
+        None => Err("Authentication Failed".into()),
+    }
 }

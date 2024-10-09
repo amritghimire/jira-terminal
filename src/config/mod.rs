@@ -3,6 +3,7 @@ use std::io;
 use std::io::Read;
 use std::io::Write;
 
+use crate::prelude::Result;
 mod cache;
 
 /// Capitalize first letter of a word.
@@ -35,12 +36,12 @@ pub fn get_config_file_name() -> String {
 /// ```
 /// assert!(check_config_exists());
 /// ```
-fn check_config_exists() -> bool {
-    fs::metadata(get_config_file_name()).is_ok()
+fn check_config_exists() -> Result<bool> {
+    Ok(fs::metadata(get_config_file_name()).is_ok())
 }
 
 /// Create configuration file by asking user with the required information.
-fn create_config() {
+fn create_config() -> Result<()> {
     // Ask for the config file and create a new file.
     let mut namespace = String::new();
     let mut email = String::new();
@@ -68,9 +69,10 @@ fn create_config() {
         alias: {},
         transitions: {}
     };
-    let account_id = cache::get_username(&configuration);
+    let account_id = cache::get_username(&configuration)?;
     configuration["account_id"] = account_id.into();
     write_config(configuration);
+    Ok(())
 }
 
 /// Write the updated configuration to the file.
@@ -285,11 +287,12 @@ pub fn transition_exists(project_code: String, transition_name: String) -> bool 
 /// Ensure the config exists.
 /// It will first check the config file exists.
 /// If it does not, it will ask the user to create one.
-pub fn ensure_config() {
-    let config_exists = check_config_exists();
+pub fn ensure_config() -> Result<()> {
+    let config_exists = check_config_exists()?;
     if !config_exists {
-        create_config();
+        create_config()?;
     }
+    Ok(())
 }
 
 /// List all the provided alias.
