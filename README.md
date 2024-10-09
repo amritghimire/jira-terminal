@@ -89,6 +89,7 @@ SUBCOMMANDS:
     new               Create a new ticket.
     transition        Transition of ticket across status.
     update            Update a field for a ticket
+    logout            Erase configuration and log out of Jira
 ```
 
 ### List of Tickets

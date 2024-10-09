@@ -21,7 +21,7 @@ pub fn str_cap(s: String) -> String {
 /// ```
 /// assert!(get_config_file_name(), "/home/user/.jira_terminal_configuration.json".to_string());
 /// ```
-fn get_config_file_name() -> String {
+pub fn get_config_file_name() -> String {
     let config_file_name: String = String::from(".jira_terminal_configuration.json");
     match home::home_dir() {
         Some(path) => format!("{}/{}", path.display(), config_file_name),

@@ -1,6 +1,18 @@
 {
+  "project": {
+    "readme_path": "../README.md"
+  },
   "build": {
     "path_prefix": "jira-terminal"
+  },
+  "components": {
+    "changelog": true,
+    "artifacts": {
+      "package_managers": {
+        "preferred": {
+          "crates.io": "cargo install cargo-dist"
+        }
+      }
+    }
   }
 }
-

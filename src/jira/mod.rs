@@ -4,6 +4,7 @@ pub mod comments;
 pub mod details;
 mod fields;
 pub mod lists;
+mod logout;
 mod new_issue;
 pub mod transitions;
 mod update;
@@ -20,6 +21,10 @@ pub fn handle_transition_matches(matches: &ArgMatches) {
         let status = matches.value_of("STATUS").unwrap();
         transitions::move_ticket_status(ticket.to_string(), status.to_string());
     }
+}
+
+pub fn handle_logout(_matches: &ArgMatches) {
+    logout::delete_configuration();
 }
 
 pub fn handle_fields_matches(matches: &ArgMatches) {
