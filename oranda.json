@@ -10,7 +10,7 @@
     "artifacts": {
       "package_managers": {
         "preferred": {
-          "crates.io": "cargo install cargo-dist"
+          "crates.io": "cargo install jira-terminal"
         }
       }
     }
