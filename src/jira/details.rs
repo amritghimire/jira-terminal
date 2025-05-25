@@ -48,6 +48,11 @@ fn show_detail_field(value: &json::JsonValue, field: String) {
         println!("{}: {}", config::str_cap(field), contents.join(", "));
         return;
     }
+    if value.is_number() {
+        let n: f64 = value.as_number().unwrap().into();
+        println!("{}: {}", config::str_cap(field), n);
+        return;
+    }
     if !hide_keys.contains(&field) {
         print!("{}: ", config::str_cap(field));
     }
