@@ -18,6 +18,11 @@
 //! example.
 //! Similarly, you can create a token from [https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
 //!
+//! Configuration is stored in XDG-compliant locations:
+//! - Linux: $XDG_CONFIG_HOME/jira-terminal/configuration.json (default: ~/.config/jira-terminal/configuration.json)
+//! - macOS: ~/Library/Application Support/jira-terminal/configuration.json
+//! - Windows: %APPDATA%\jira-terminal\configuration.json
+//!
 //!
 #[macro_use]
 extern crate clap;

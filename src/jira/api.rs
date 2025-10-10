@@ -84,7 +84,6 @@ pub fn get_call_v2(endpoint: String) -> Result<json::JsonValue, Box<dyn Error>> 
 /// # Arguments
 ///
 /// * endpoint - Endpoint to call the api. Example: user/search
-
 pub fn get_call_v3(endpoint: String) -> Result<json::JsonValue, Box<dyn Error>> {
     get_call(endpoint, 3)
 }

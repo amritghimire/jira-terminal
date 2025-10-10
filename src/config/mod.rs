@@ -2,6 +2,7 @@ use std::fs;
 use std::io;
 use std::io::Read;
 use std::io::Write;
+use std::path::{Path, PathBuf};
 
 use crate::prelude::Result;
 mod cache;
@@ -11,21 +12,75 @@ pub fn str_cap(s: String) -> String {
     format!("{}{}", (s[..1]).to_uppercase(), &s[1..])
 }
 
-/// Get the config file name regardless of platform.
-/// This function will use platform independent library to fetch home directory and return file
-/// name in home directory.
-/// If home directory is not possible, this will return the config location from the executable
-/// itself.
+/// Get the old (legacy) config file path for migration purposes.
+/// Returns: ~/.jira_terminal_configuration.json
+fn get_old_config_file_name() -> Option<PathBuf> {
+    home::home_dir().map(|path| path.join(".jira_terminal_configuration.json"))
+}
+
+/// Get the config file name following XDG Base Directory specification.
+/// This function uses the directories-next crate to provide XDG-compliant paths.
+/// On Linux: $XDG_CONFIG_HOME/jira-terminal/configuration.json (default: ~/.config/jira-terminal/configuration.json)
+/// On macOS: ~/Library/Application Support/jira-terminal/configuration.json
+/// On Windows: %APPDATA%\jira-terminal\configuration.json
+///
+/// If the old config file exists at ~/.jira_terminal_configuration.json and the new location
+/// doesn't exist, the file will be automatically migrated.
 ///
 /// # Example:
 /// ```
-/// assert!(get_config_file_name(), "/home/user/.jira_terminal_configuration.json".to_string());
+/// // On Linux with XDG_CONFIG_HOME unset:
+/// assert!(get_config_file_name(), "/home/user/.config/jira-terminal/configuration.json".to_string());
 /// ```
 pub fn get_config_file_name() -> String {
+    use directories_next::ProjectDirs;
+
+    // Try to get XDG-compliant config directory
+    if let Some(proj_dirs) = ProjectDirs::from("", "", "jira-terminal") {
+        let config_dir = proj_dirs.config_dir();
+        let new_config_path = config_dir.join("configuration.json");
+
+        // Create config directory if it doesn't exist
+        if !config_dir.exists() {
+            if let Err(e) = fs::create_dir_all(config_dir) {
+                eprintln!("Warning: Failed to create config directory: {}", e);
+            }
+        }
+
+        // Check if we need to migrate from old location
+        if !new_config_path.exists() {
+            if let Some(old_path) = get_old_config_file_name() {
+                if old_path.exists() {
+                    migrate_config(&old_path, &new_config_path);
+                }
+            }
+        }
+
+        return new_config_path.to_string_lossy().to_string();
+    }
+
+    // Fallback to old behavior if ProjectDirs fails
     let config_file_name: String = String::from(".jira_terminal_configuration.json");
     match home::home_dir() {
         Some(path) => format!("{}/{}", path.display(), config_file_name),
         None => config_file_name,
+    }
+}
+
+/// Migrate config file from old location to new XDG-compliant location.
+fn migrate_config(old_path: &Path, new_path: &Path) {
+    match fs::copy(old_path, new_path) {
+        Ok(_) => {
+            println!("Configuration migrated to XDG-compliant location:");
+            println!("  From: {}", old_path.display());
+            println!("  To:   {}", new_path.display());
+            println!("The old config file has been kept for backup purposes.");
+            println!("You can safely delete it if the new location works correctly.");
+        }
+        Err(e) => {
+            eprintln!("Warning: Failed to migrate config file: {}", e);
+            eprintln!("Continuing with old location.");
+        }
     }
 }
 
@@ -278,7 +333,6 @@ pub fn get_transitions(project_code: String) -> json::JsonValue {
 /// ```
 /// assert!(transition_exists("ABC".to_string(), "in progress".to_string()));
 /// ```
-
 pub fn transition_exists(project_code: String, transition_name: String) -> bool {
     let config_value = &parse_config()["transitions"][project_code][transition_name];
     !config_value.is_null()

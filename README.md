@@ -324,4 +324,9 @@ OPTIONS:
 ```
 
 ## Notes
-- The credentials and other configuration are stored in a file `~/.jira_terminal_configuration.json`. The base64 encoded version of credentials are only written in the configuration file.
+- The credentials and other configuration are stored following the XDG Base Directory specification:
+  - **Linux**: `$XDG_CONFIG_HOME/jira-terminal/configuration.json` (default: `~/.config/jira-terminal/configuration.json`)
+  - **macOS**: `~/Library/Application Support/jira-terminal/configuration.json`
+  - **Windows**: `%APPDATA%\jira-terminal\configuration.json`
+- The base64 encoded version of credentials are only written in the configuration file.
+- If upgrading from an older version, your config will be automatically migrated from `~/.jira_terminal_configuration.json` to the new location on first run.

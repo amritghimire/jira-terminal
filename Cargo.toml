@@ -18,6 +18,7 @@ license = false
 eula = false
 
 [dependencies]
+directories-next = "2.0"
 home = "0.5.3"
 json = "0.12.4"
 ureq = "2.1.0"
