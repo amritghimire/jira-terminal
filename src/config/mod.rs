@@ -2,7 +2,7 @@ use std::fs;
 use std::io;
 use std::io::Read;
 use std::io::Write;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use crate::prelude::Result;
 mod cache;
@@ -68,7 +68,7 @@ pub fn get_config_file_name() -> String {
 }
 
 /// Migrate config file from old location to new XDG-compliant location.
-fn migrate_config(old_path: &PathBuf, new_path: &PathBuf) {
+fn migrate_config(old_path: &Path, new_path: &Path) {
     match fs::copy(old_path, new_path) {
         Ok(_) => {
             println!("Configuration migrated to XDG-compliant location:");
