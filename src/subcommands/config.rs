@@ -1,7 +1,7 @@
 use clap::{App, Arg, SubCommand};
 
-/// This subcommand is to configure user specific needs.
-/// e.g. set/unset board id to use it by default while filtering.
+/// Configure user-specific settings for this CLI.
+/// For example, use `jira-version` to set the Jira API version used for requests.
 pub fn subcommand() -> App<'static, 'static> {
     SubCommand::with_name("config")
         .about("Update configuration values.")
