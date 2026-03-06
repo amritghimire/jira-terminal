@@ -51,6 +51,7 @@ pub fn put_call(
 }
 
 fn get_api_request(endpoint: String, json_value: json::JsonValue, version: u8) -> ApiRequest {
+    let auth_mode = config::get_config("auth_mode".to_string());
     ApiRequest {
         url: endpoint,
         username: config::get_config("email".to_string()),
@@ -58,7 +59,11 @@ fn get_api_request(endpoint: String, json_value: json::JsonValue, version: u8) -
         json: json_value,
         namespace: config::get_config("namespace".to_string()),
         version,
-        auth_mode: config::get_config("auth_mode".to_string()),
+        auth_mode: if auth_mode.is_empty() {
+            "Basic".to_string()
+        } else {
+            auth_mode
+        },
     }
 }
 
