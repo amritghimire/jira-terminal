@@ -106,7 +106,9 @@ fn normalize_namespace(namespace: &str) -> &str {
 pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
-        normalize_namespace(&api_request.namespace), api_request.version, api_request.url
+        normalize_namespace(&api_request.namespace),
+        api_request.version,
+        api_request.url
     );
     let authentication = build_auth_header(&api_request);
     let response = ureq::get(&url).set("Authorization", &authentication).call();
@@ -134,7 +136,9 @@ pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, Box<dyn 
 pub fn post(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
-        normalize_namespace(&api_request.namespace), api_request.version, api_request.url
+        normalize_namespace(&api_request.namespace),
+        api_request.version,
+        api_request.url
     );
     let authentication = build_auth_header(&api_request);
     let response = ureq::post(&url)
@@ -165,7 +169,9 @@ pub fn post(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> 
 pub fn put(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
-        normalize_namespace(&api_request.namespace), api_request.version, api_request.url
+        normalize_namespace(&api_request.namespace),
+        api_request.version,
+        api_request.url
     );
     let authentication = build_auth_header(&api_request);
     let response = ureq::put(&url)

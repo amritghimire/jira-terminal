@@ -1,8 +1,8 @@
 pub mod alias;
-pub mod config;
 pub mod assign;
 pub mod autocompletion;
 pub mod comments;
+pub mod config;
 pub mod detail;
 pub mod fields;
 pub mod list;
