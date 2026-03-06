@@ -9,12 +9,7 @@ fn handle_response_error_json(
     match response {
         Ok(r) => {
             let response_string = r.into_string()?;
-            json::parse(&response_string).map_err(|e| {
-                eprintln!("Request: GET {url}");
-                eprintln!("Server returned a non-JSON response:");
-                eprintln!("{response_string}");
-                Box::new(e) as Box<dyn Error>
-            })
+            Ok(json::parse(&response_string).unwrap())
         }
         Err(ureq::Error::Status(code, r)) => {
             eprintln!("Request: GET {url}");
