@@ -15,4 +15,6 @@ pub struct ApiRequest {
     pub namespace: String,
     /// Rest API Version to use.
     pub version: u8,
+    /// Authentication mode
+    pub auth_mode: String,
 }
