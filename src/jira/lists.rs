@@ -116,7 +116,7 @@ pub fn list_issues(matches: &ArgMatches) {
     let search_response = api::get_call_v3(format!(
         "search?maxResults={count}&startAt={offset}&jql={jql}"
     ));
-    if let Err(e) = search_response {
+    if let Err(e) = &search_response {
         eprintln!("Error occurred when searching tickets: {e}");
         std::process::exit(1);
     }
