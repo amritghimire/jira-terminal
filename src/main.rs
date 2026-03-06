@@ -51,7 +51,8 @@ fn main() -> prelude::Result<()> {
         .subcommand(subcommands::update::subcommand())
         .subcommand(subcommands::autocompletion::subcommand())
         .subcommand(subcommands::new_subcommand::subcommand())
-        .subcommand(subcommands::logout::subcommand());
+        .subcommand(subcommands::logout::subcommand())
+        .subcommand(subcommands::config::subcommand());
     subcommands::handle_matches(app);
     Ok(())
 }
