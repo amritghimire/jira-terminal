@@ -81,6 +81,6 @@ pub fn get_call_v3(endpoint: String) -> Result<json::JsonValue, Box<dyn Error>> 
         endpoint,
         config::get_config("version".to_string())
             .parse::<u8>()
-            .unwrap_or(2),
+            .unwrap_or(3),
     )
 }
