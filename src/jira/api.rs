@@ -1,4 +1,5 @@
 use crate::api;
+use crate::api::request::ApiRequest;
 use crate::config;
 use std::error::Error;
 
@@ -11,14 +12,7 @@ use std::error::Error;
 /// * endpoint - Endpoint to call the api. Example: user/search
 /// * version - Rest API Version to call. Values will be 2/3 as of now.
 fn get_call(endpoint: String, version: u8) -> Result<json::JsonValue, Box<dyn Error>> {
-    let api_request = api::request::ApiRequest {
-        url: endpoint,
-        username: config::get_config("email".to_string()),
-        password: config::get_config("token".to_string()),
-        json: json::object! {},
-        namespace: config::get_config("namespace".to_string()),
-        version,
-    };
+    let api_request = get_api_request(endpoint, json::object! {}, version);
     api::get(api_request)
 }
 
@@ -35,14 +29,7 @@ pub fn post_call(
     json_value: json::JsonValue,
     version: u8,
 ) -> Result<String, Box<dyn Error>> {
-    let api_request = api::request::ApiRequest {
-        url: endpoint,
-        username: config::get_config("email".to_string()),
-        password: config::get_config("token".to_string()),
-        json: json_value,
-        namespace: config::get_config("namespace".to_string()),
-        version,
-    };
+    let api_request = get_api_request(endpoint, json_value, version);
     api::post(api_request)
 }
 
@@ -59,15 +46,25 @@ pub fn put_call(
     json_value: json::JsonValue,
     version: u8,
 ) -> Result<String, Box<dyn Error>> {
-    let api_request = api::request::ApiRequest {
+    let api_request = get_api_request(endpoint, json_value, version);
+    api::put(api_request)
+}
+
+fn get_api_request(endpoint: String, json_value: json::JsonValue, version: u8) -> ApiRequest {
+    let auth_mode = config::get_config("auth_mode".to_string());
+    ApiRequest {
         url: endpoint,
         username: config::get_config("email".to_string()),
         password: config::get_config("token".to_string()),
         json: json_value,
         namespace: config::get_config("namespace".to_string()),
         version,
-    };
-    api::put(api_request)
+        auth_mode: if auth_mode.is_empty() {
+            "Basic".to_string()
+        } else {
+            auth_mode
+        },
+    }
 }
 
 /// Shortcut for version 2 get_call.
@@ -85,5 +82,10 @@ pub fn get_call_v2(endpoint: String) -> Result<json::JsonValue, Box<dyn Error>> 
 ///
 /// * endpoint - Endpoint to call the api. Example: user/search
 pub fn get_call_v3(endpoint: String) -> Result<json::JsonValue, Box<dyn Error>> {
-    get_call(endpoint, 3)
+    get_call(
+        endpoint,
+        config::get_config("version".to_string())
+            .parse::<u8>()
+            .unwrap_or(3),
+    )
 }

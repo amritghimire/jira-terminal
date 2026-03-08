@@ -24,7 +24,16 @@ pub fn get_username(configuration: &json::JsonValue) -> Result<String> {
         password: configuration["token"].as_str().unwrap().to_string(),
         json: json::object! {},
         namespace: configuration["namespace"].as_str().unwrap().to_string(),
-        version: 3,
+        version: configuration["jira-version"]
+            .as_str()
+            .unwrap_or("")
+            .to_string()
+            .parse::<u8>()
+            .unwrap_or(3),
+        auth_mode: configuration["auth_mode"]
+            .as_str()
+            .unwrap_or("Basic")
+            .to_string(),
     };
     let response = api::get(api_request).unwrap();
     match response[0]["accountId"].as_str() {

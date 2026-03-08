@@ -77,10 +77,10 @@ fn form_jql(matches: &ArgMatches) -> String {
             }
         } else if field == "text" {
             let jql_option = matches.value_of("text");
-            if jql_option.is_some() {
+            if let Some(jql_option) = jql_option {
                 criterias.push(format!(
                     "text ~ \"{}\"",
-                    config::get_alias_or(jql_option.unwrap().to_string())
+                    config::get_alias_or(jql_option.to_string())
                 ));
             }
         } else if let Some(values) = matches.values_of(field) {
@@ -116,8 +116,8 @@ pub fn list_issues(matches: &ArgMatches) {
     let search_response = api::get_call_v3(format!(
         "search?maxResults={count}&startAt={offset}&jql={jql}"
     ));
-    if search_response.is_err() {
-        eprintln!("Error occurred when searching tickets. ");
+    if let Err(e) = &search_response {
+        eprintln!("Error occurred when searching tickets: {e}");
         std::process::exit(1);
     }
     if matches.is_present("alias") {

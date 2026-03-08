@@ -34,8 +34,8 @@ fn display_comment_object(comment: &json::JsonValue, re: &Regex) {
         comment["author"]["displayName"].as_str().unwrap_or("")
     );
     let rfc3339 = DateTime::parse_from_str(comment["created"].as_str().unwrap_or(""), "%FT%T%.f%z");
-    if rfc3339.is_ok() {
-        println!("({})", rfc3339.unwrap().format("%v %r"));
+    if let Ok(rfc3339) = rfc3339 {
+        println!("({})", rfc3339.format("%v %r"));
         println!("============================\n");
     }
     let comment_body = comment["body"].as_str().unwrap();

@@ -3,6 +3,7 @@ use std::error::Error;
 pub mod request;
 
 fn handle_response_error_json(
+    url: &str,
     response: Result<ureq::Response, ureq::Error>,
 ) -> Result<json::JsonValue, Box<dyn Error>> {
     match response {
@@ -11,6 +12,7 @@ fn handle_response_error_json(
             Ok(json::parse(&response_string).unwrap())
         }
         Err(ureq::Error::Status(code, r)) => {
+            eprintln!("Request: GET {url}");
             eprintln!("JIRA API returned with status code {code}. ");
             let response_string = r.into_string()?;
             match json::parse(&response_string) {
@@ -26,11 +28,16 @@ fn handle_response_error_json(
                 ureq::Response::new(code, "API", "API Error").unwrap(),
             )))
         }
-        Err(e) => Err(Box::new(e)),
+        Err(e) => {
+            eprintln!("Request: GET {url}");
+            Err(Box::new(e))
+        }
     }
 }
 
 fn handle_response_error(
+    method: &str,
+    url: &str,
     response: Result<ureq::Response, ureq::Error>,
 ) -> Result<String, Box<dyn Error>> {
     match response {
@@ -39,6 +46,7 @@ fn handle_response_error(
             Ok(response_string)
         }
         Err(ureq::Error::Status(code, r)) => {
+            eprintln!("Request: {method} {url}");
             eprintln!("JIRA API returned with status code {code}. ");
             let response_string = r.into_string()?;
             match json::parse(&response_string) {
@@ -54,8 +62,22 @@ fn handle_response_error(
                 ureq::Response::new(code, "API", "API Error").unwrap(),
             )))
         }
-        Err(e) => Err(Box::new(e)),
+        Err(e) => {
+            eprintln!("Request: {method} {url}");
+            Err(Box::new(e))
+        }
     }
+}
+
+fn build_auth_header(api_request: &request::ApiRequest) -> String {
+    let mode = api_request.auth_mode.to_string();
+    format!("{mode} {}", api_request.password)
+}
+
+fn normalize_namespace(namespace: &str) -> &str {
+    namespace
+        .trim_start_matches("https://")
+        .trim_start_matches("http://")
 }
 
 /// Call GET API request to JIRA with provided api request.
@@ -79,11 +101,13 @@ fn handle_response_error(
 pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
-        api_request.namespace, api_request.version, api_request.url
+        normalize_namespace(&api_request.namespace),
+        api_request.version,
+        api_request.url
     );
-    let authentication = format!("Basic {}", api_request.password);
+    let authentication = build_auth_header(&api_request);
     let response = ureq::get(&url).set("Authorization", &authentication).call();
-    handle_response_error_json(response)
+    handle_response_error_json(&url, response)
 }
 
 /// Call POST API request to JIRA with provided api request.
@@ -107,14 +131,16 @@ pub fn get(api_request: request::ApiRequest) -> Result<json::JsonValue, Box<dyn 
 pub fn post(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
-        api_request.namespace, api_request.version, api_request.url
+        normalize_namespace(&api_request.namespace),
+        api_request.version,
+        api_request.url
     );
-    let authentication = format!("Basic {}", api_request.password);
+    let authentication = build_auth_header(&api_request);
     let response = ureq::post(&url)
         .set("Authorization", &authentication)
         .set("Content-Type", "application/json")
         .send_string(&json::stringify(api_request.json));
-    handle_response_error(response)
+    handle_response_error("POST", &url, response)
 }
 
 /// Call PUT API request to JIRA with provided api request.
@@ -138,12 +164,14 @@ pub fn post(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> 
 pub fn put(api_request: request::ApiRequest) -> Result<String, Box<dyn Error>> {
     let url = format!(
         "https://{}/rest/api/{}/{}",
-        api_request.namespace, api_request.version, api_request.url
+        normalize_namespace(&api_request.namespace),
+        api_request.version,
+        api_request.url
     );
-    let authentication = format!("Basic {}", api_request.password);
+    let authentication = build_auth_header(&api_request);
     let response = ureq::put(&url)
         .set("Authorization", &authentication)
         .set("Content-Type", "application/json")
         .send_string(&json::stringify(api_request.json));
-    handle_response_error(response)
+    handle_response_error("PUT", &url, response)
 }

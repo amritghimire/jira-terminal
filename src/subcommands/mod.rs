@@ -2,6 +2,7 @@ pub mod alias;
 pub mod assign;
 pub mod autocompletion;
 pub mod comments;
+pub mod config;
 pub mod detail;
 pub mod fields;
 pub mod list;
@@ -10,7 +11,7 @@ pub mod new_subcommand;
 pub mod transition;
 pub mod update;
 
-use crate::{config, jira};
+use crate::{config as app_config, jira};
 use clap::{App, Shell};
 use std::io;
 use std::str::FromStr;
@@ -23,14 +24,14 @@ pub fn handle_matches(mut app: App) {
         jira::handle_list_matches(lists);
     } else if let Some(aliases) = matches.subcommand_matches("alias") {
         if aliases.is_present("list") {
-            config::list_all_alias();
+            app_config::list_all_alias();
         } else {
             let alias_name = aliases.value_of("NAME").unwrap();
             if aliases.is_present("remove") {
-                config::remove_alias(alias_name.to_string());
+                app_config::remove_alias(alias_name.to_string());
             } else if aliases.is_present("add") {
                 let value = aliases.value_of("add").unwrap();
-                config::set_alias(alias_name.to_string(), value.to_string());
+                app_config::set_alias(alias_name.to_string(), value.to_string());
                 println!("Added new config for {alias_name} with value: {value}");
             }
         }
@@ -59,6 +60,8 @@ pub fn handle_matches(mut app: App) {
         }
         let shell = shell_parse.unwrap();
         app.gen_completions_to("jira-terminal", shell, &mut io::stdout());
+    } else if let Some(config_matches) = matches.subcommand_matches("config") {
+        config::handle(config_matches);
     } else {
         let result = app.print_long_help();
         if result.is_err() {
