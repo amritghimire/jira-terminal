@@ -33,12 +33,12 @@ rpassword = "5.0.1"
 inherits = "release"
 lto = "thin"
 
-# Config for 'cargo dist'
+# Config for 'dist'
 [workspace.metadata.dist]
-# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
-cargo-dist-version = "0.13.0"
+# The preferred dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.31.0"
 # CI backends to support
-ci = ["github"]
+ci = "github"
 # The installers to generate for each app
 installers = ["shell", "powershell", "npm", "homebrew", "msi"]
 # A GitHub repo to push Homebrew formulas to
@@ -47,7 +47,7 @@ tap = "amritghimire/homebrew-jira-terminal"
 targets = ["aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-unknown-linux-musl", "x86_64-pc-windows-msvc"]
 # Publish jobs to run in CI
 publish-jobs = ["homebrew", "./publish-crates"]
-# Publish jobs to run in CI
+# Which actions to run on pull requests
 pr-run-mode = "plan"
 # Whether to install an updater program
 install-updater = true
@@ -57,3 +57,5 @@ windows-archive = ".tar.gz"
 unix-archive = ".tar.gz"
 # A namespace to use when publishing this package to the npm registry
 npm-scope = "@amritghimire"
+# Path that installers should place binaries in
+install-path = "CARGO_HOME"
