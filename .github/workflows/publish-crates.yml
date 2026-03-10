@@ -31,9 +31,3 @@ jobs:
       - run: cargo publish -p jira-terminal --token ${CRATES_TOKEN}
         env:
           CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
-      - run: cargo publish -p cargo-dist-schema --token ${CRATES_TOKEN}
-        env:
-          CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
-      - run: cargo publish -p cargo-dist --token ${CRATES_TOKEN}
-        env:
-          CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
