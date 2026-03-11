@@ -7,18 +7,10 @@
     "artifacts": {
       "package_managers": {
         "preferred": {
-          "crates.io": "cargo install jira-terminal"
-        },
-        "additional": [
-          {
-            "label": "AUR (yay)",
-            "run": "yay -S jira-terminal-bin"
-          },
-          {
-            "label": "AUR (paru)",
-            "run": "paru -S jira-terminal-bin"
-          }
-        ]
+          "crates.io": "cargo install jira-terminal",
+          "AUR (yay)": "yay -S jira-terminal-bin",
+          "AUR (paru)": "paru -S jira-terminal-bin"
+        }
       }
     }
   }
