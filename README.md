@@ -8,20 +8,32 @@ This application can be used in multiple platform.
 
 ### MacOS
 
-This package is available in brew as `jira-terminal`. You can install it with following command:
+This package is available in Homebrew. You can install it with:
 
 ```
-brew tap amritghimire/jira-terminal 
-brew install jira-terminal
+brew install amritghimire/jira-terminal/jira-terminal
 ```
 
 ### Arch Linux
 
-This package is available in aur repository as [jira-terminal-bin](https://aur.archlinux.org/packages/jira-terminal-bin/)
+This package is available in the AUR as [jira-terminal-bin](https://aur.archlinux.org/packages/jira-terminal-bin/). Install with your preferred AUR helper:
+
+```
+yay -S jira-terminal-bin
+```
+or
+```
+paru -S jira-terminal-bin
+```
 
 ### Debian/Ubuntu
 
-On debian based system, the deb file is available in [releases](https://github.com/amritghimire/jira-terminal/releases). You can download latest release from there. Please make sure libc is installed in your system.
+Download the latest `jira-terminal-x86_64-unknown-linux-gnu.tar.gz` from [releases](https://github.com/amritghimire/jira-terminal/releases), extract it, and copy the binary to a directory in your `$PATH`:
+
+```bash
+tar -xzf jira-terminal-x86_64-unknown-linux-gnu.tar.gz
+sudo mv jira-terminal /usr/local/bin/
+```
 
 ### Cargo
 

@@ -7,9 +7,18 @@
     "artifacts": {
       "package_managers": {
         "preferred": {
-          "homebrew": "brew install amritghimire/jira-terminal/jira-terminal",
           "crates.io": "cargo install jira-terminal"
-        }
+        },
+        "additional": [
+          {
+            "label": "AUR (yay)",
+            "run": "yay -S jira-terminal-bin"
+          },
+          {
+            "label": "AUR (paru)",
+            "run": "paru -S jira-terminal-bin"
+          }
+        ]
       }
     }
   }
