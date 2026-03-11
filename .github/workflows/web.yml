@@ -1,10 +1,11 @@
 # Workflow to build your docs with oranda (and mdbook)
-# and deploy them to Github Pages
+# and deploy them to Cloudflare Pages
 name: Web
 
-# We're going to push to the gh-pages branch, so we need that permission
 permissions:
-  contents: write
+  contents: read
+  deployments: write
+  pull-requests: write
 
 # What situations do we want to build docs in?
 # All of these work independently and can be removed / commented out
@@ -69,21 +70,11 @@ jobs:
           curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/oranda/releases/latest/download/oranda-installer.sh | sh
           oranda build
            
-      # Deploy to our gh-pages branch (creating it if it doesn't exist)
-      # the "public" dir that oranda made above will become the root dir
-      # of this branch.
-      #
-      # Note that once the gh-pages branch exists, you must
-      # go into repo's settings > pages and set "deploy from branch: gh-pages"
-      # the other defaults work fine.
-      - name: Deploy to Github Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        # ONLY if we're on main (so no PRs or feature branches allowed!)
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
         with:
-          branch: gh-pages
-          # Gotta tell the action where to find oranda's output
-          folder: public
-          token: ${{ secrets.GITHUB_TOKEN }}
-          single-commit: true
-          cname: jira-terminal.amritghimire.com
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: jira-terminal
+          directory: public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
