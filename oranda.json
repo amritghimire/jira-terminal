@@ -2,9 +2,6 @@
   "project": {
     "readme_path": "../README.md"
   },
-  "build": {
-    "path_prefix": ""
-  },
   "components": {
     "changelog": true,
     "artifacts": {
