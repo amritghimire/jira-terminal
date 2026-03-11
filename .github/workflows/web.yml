@@ -70,6 +70,13 @@ jobs:
           curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/oranda/releases/latest/download/oranda-installer.sh | sh
           oranda build
            
+      - name: Debug - list Cloudflare Pages projects
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project list
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
