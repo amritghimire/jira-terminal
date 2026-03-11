@@ -3,7 +3,7 @@
     "readme_path": "../README.md"
   },
   "build": {
-    "path_prefix": "jira-terminal"
+    "path_prefix": ""
   },
   "components": {
     "changelog": true,

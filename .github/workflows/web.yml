@@ -86,3 +86,4 @@ jobs:
           folder: public
           token: ${{ secrets.GITHUB_TOKEN }}
           single-commit: true
+          cname: jira-terminal.amritghimire.com
