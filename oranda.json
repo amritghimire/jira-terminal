@@ -10,6 +10,7 @@
     "artifacts": {
       "package_managers": {
         "preferred": {
+          "homebrew": "brew install amritghimire/jira-terminal/jira-terminal",
           "crates.io": "cargo install jira-terminal"
         }
       }
